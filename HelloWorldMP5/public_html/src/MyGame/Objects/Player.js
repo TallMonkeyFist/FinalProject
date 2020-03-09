@@ -73,16 +73,26 @@ Player.prototype.drawPath = function(mCamera)
 
 Player.prototype._makePathLines = function(mGrid) {
     this.pathLines = [];
-    var i = 0; 
-    for(i = 0; i < this.path.length - 2; i++) {
-        var startNode = mGrid.gridToWC([this.path[i].x, this.path[i].y]);
-        var endNode = mGrid.gridToWC([this.path[i + 1].x, this.path[i].y + 1]);
-        var tempLine = new LineRenderable(
-                startNode[0], 
-                startNode[1], 
-                endNode[0], 
-                endNode[1]);
+    if (this.path !== null && this.path.length !== 0) {
+        var i = 0; 
+        var firstStep = mGrid.gridToWC([this.path[0].x, this.path[0].y]);
+        tempLine = new LineRenderable(
+                this.getXform().getPosition()[0],
+                this.getXform().getPosition()[1],
+                firstStep[0], 
+                firstStep[1]);
         tempLine.setColor([1, 0, 0, 1]);
         this.pathLines.push(tempLine); 
-    }    
+        for(i = 0; i < this.path.length - 1; i++) {
+            var startNode = mGrid.gridToWC([this.path[i].x, this.path[i].y]);
+            var endNode = mGrid.gridToWC([this.path[i + 1].x, this.path[i].y + 1]);
+            var tempLine = new LineRenderable(
+                    startNode[0], 
+                    startNode[1], 
+                    endNode[0], 
+                    endNode[1]);
+            tempLine.setColor([1, 0, 0, 1]);
+            this.pathLines.push(tempLine); 
+        }    
+    }
 };
