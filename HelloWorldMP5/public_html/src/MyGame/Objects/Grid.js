@@ -135,10 +135,10 @@ Grid.prototype._addToGrid = function (object)
     console.log(start);
     console.log(end);
     var i;
-    for (i = start[0]; i < end[0]; i++)
+    for (i = start[0]; i <= end[0]; i++)
     {
         var j;
-        for (j = start[1]; j < end[1];  j++)
+        for (j = start[1]; j <= end[1];  j++)
         {
             this.squares[i][j] = 0;
         }
