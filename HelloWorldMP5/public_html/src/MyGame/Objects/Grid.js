@@ -1,3 +1,4 @@
+"use strict"
 
 function Grid(numXCells, numYCells, mCamera)
 {
@@ -43,7 +44,7 @@ Grid.prototype.search = function(start, end)
         console.log("can't move into a wall");
         return [];
     }
-    var result = astar.search(this.mGraph, s, e);
+    var result = astar.search(this.mGraph   , s, e);
     console.log(e);
     return result;
 };
@@ -200,19 +201,19 @@ Grid.prototype._initGrid = function()
         }
     }
     
-    xStart = this.mCamera.getWCCenter()[0] - this.mCamera.getWCWidth() / 2; 
-    xEnd = this.mCamera.getWCCenter()[0] + this.mCamera.getWCWidth() / 2; 
-    deltaX = (xEnd - xStart) / this.xCell; 
+    var xStart = this.mCamera.getWCCenter()[0] - this.mCamera.getWCWidth() / 2; 
+    var xEnd = this.mCamera.getWCCenter()[0] + this.mCamera.getWCWidth() / 2; 
+    var deltaX = (xEnd - xStart) / this.xCell; 
     
-    yStart = this.mCamera.getWCCenter()[1] - this.mCamera.getWCHeight() / 2; 
-    yEnd = this.mCamera.getWCCenter()[1] + this.mCamera.getWCHeight() / 2; 
-    deltaY = (yEnd - yStart) / this.yCell; 
-    
+    var yStart = this.mCamera.getWCCenter()[1] - this.mCamera.getWCHeight() / 2; 
+    var yEnd = this.mCamera.getWCCenter()[1] + this.mCamera.getWCHeight() / 2; 
+    var deltaY = (yEnd - yStart) / this.yCell; 
+    var tempLine;
+    var i;
     for (i = xStart; i <= xEnd; i = i + deltaX) {
         tempLine = new LineRenderable(i, yStart, i, yEnd); 
         this.gridLines.push(tempLine);
     }
-    
     for (i = yStart; i <= yEnd; i = i + deltaY) {
         tempLine = new LineRenderable(xStart, i, xEnd, i); 
         this.gridLines.push(tempLine);        
@@ -221,6 +222,7 @@ Grid.prototype._initGrid = function()
 
 Grid.prototype.draw = function(mCamera) {
     if (this.showGrid) {
+        var i;
         for (i = 0; i < this.gridLines.length; i++) {
             this.gridLines[i].draw(mCamera); 
         }
