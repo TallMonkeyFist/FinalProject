@@ -1,3 +1,4 @@
+"use strict"
 
 function Grid(numXCells, numYCells, mCamera)
 {
@@ -24,10 +25,6 @@ Grid.prototype._calibrate = function()
     this.maxX = this.mXform.getPosition()[0] + this.mXform.getWidth()/2;
     this.minY = this.mXform.getPosition()[1] - this.mXform.getHeight()/2;
     this.maxY = this.mXform.getPosition()[1] + this.mXform.getHeight()/2;
-    console.log(this.minX);
-    console.log(this.maxX);
-    console.log(this.minY);
-    console.log(this.maxY);
 };
 
 Grid.prototype.setPosition = function(x, y)
@@ -42,15 +39,14 @@ Grid.prototype.search = function(start, end)
     var s = this.mGraph.grid[startGrid[0]][startGrid[1]];
     var endGrid = this._wcToGrid(end);
     var e = this.mGraph.grid[endGrid[0]][endGrid[1]];
-    console.log(startGrid);
-    console.log(endGrid);
     if (this.squares[endGrid[0]][endGrid[1]] === 0)
     {
         gUpdateFrame("Can't move into a wall");
         return [];
     }
-    var result = astar.search(this.mGraph, s, e);
-    console.log(result);
+    gUpdateFrame("Moving to cell: " + endGrid[0] + ", " + endGrid[1]);
+    var result = astar.search(this.mGraph   , s, e);
+    console.log(e);
     return result;
 };
 
@@ -129,17 +125,13 @@ Grid.prototype._addToGrid = function (object)
     maxX = pos[0] + xform.getWidth()/2;
     minY = pos[1] - xform.getHeight()/2;
     maxY = pos[1] + xform.getHeight()/2;
-    console.log(minX);
-    console.log(maxX);
     var start = this._wcToGrid([minX, minY]);
     var end = this._wcToGrid([maxX, maxY]);
-    console.log(start);
-    console.log(end);
     var i;
-    for (i = start[0]; i < end[0]; i++)
+    for (i = start[0]; i <= end[0]; i++)
     {
         var j;
-        for (j = start[1]; j < end[1];  j++)
+        for (j = start[1]; j <= end[1];  j++)
         {
             this.squares[i][j] = 0;
         }
@@ -210,19 +202,19 @@ Grid.prototype._initGrid = function()
         }
     }
     
-    xStart = this.mCamera.getWCCenter()[0] - this.mCamera.getWCWidth() / 2; 
-    xEnd = this.mCamera.getWCCenter()[0] + this.mCamera.getWCWidth() / 2; 
-    deltaX = (xEnd - xStart) / this.xCell; 
+    var xStart = this.mCamera.getWCCenter()[0] - this.mCamera.getWCWidth() / 2; 
+    var xEnd = this.mCamera.getWCCenter()[0] + this.mCamera.getWCWidth() / 2; 
+    var deltaX = (xEnd - xStart) / this.xCell; 
     
-    yStart = this.mCamera.getWCCenter()[1] - this.mCamera.getWCHeight() / 2; 
-    yEnd = this.mCamera.getWCCenter()[1] + this.mCamera.getWCHeight() / 2; 
-    deltaY = (yEnd - yStart) / this.yCell; 
-    
+    var yStart = this.mCamera.getWCCenter()[1] - this.mCamera.getWCHeight() / 2; 
+    var yEnd = this.mCamera.getWCCenter()[1] + this.mCamera.getWCHeight() / 2; 
+    var deltaY = (yEnd - yStart) / this.yCell; 
+    var tempLine;
+    var i;
     for (i = xStart; i <= xEnd; i = i + deltaX) {
         tempLine = new LineRenderable(i, yStart, i, yEnd); 
         this.gridLines.push(tempLine);
     }
-    
     for (i = yStart; i <= yEnd; i = i + deltaY) {
         tempLine = new LineRenderable(xStart, i, xEnd, i); 
         this.gridLines.push(tempLine);        
@@ -231,6 +223,7 @@ Grid.prototype._initGrid = function()
 
 Grid.prototype.draw = function(mCamera) {
     if (this.showGrid) {
+        var i;
         for (i = 0; i < this.gridLines.length; i++) {
             this.gridLines[i].draw(mCamera); 
         }
