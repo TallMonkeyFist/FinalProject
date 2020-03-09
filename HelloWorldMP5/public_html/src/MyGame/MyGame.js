@@ -61,6 +61,8 @@ MyGame.prototype.draw = function () {
     this.player.draw(this.mCamera);
     this.walls.draw(this.mCamera);
     this.mGrid.draw(this.mCamera);
+    this.player.drawPath(this.mCamera);
+
 };
 
 // The Update function, updates the application state. Make sure to _NOT_ draw
