@@ -23,10 +23,6 @@ Grid.prototype._calibrate = function()
     this.maxX = this.mXform.getPosition()[0] + this.mXform.getWidth()/2;
     this.minY = this.mXform.getPosition()[1] - this.mXform.getHeight()/2;
     this.maxY = this.mXform.getPosition()[1] + this.mXform.getHeight()/2;
-    console.log(this.minX);
-    console.log(this.maxX);
-    console.log(this.minY);
-    console.log(this.maxY);
 };
 
 Grid.prototype.setPosition = function(x, y)
@@ -41,15 +37,13 @@ Grid.prototype.search = function(start, end)
     var s = this.mGraph.grid[startGrid[0]][startGrid[1]];
     var endGrid = this._wcToGrid(end);
     var e = this.mGraph.grid[endGrid[0]][endGrid[1]];
-    console.log(startGrid);
-    console.log(endGrid);
     if (this.squares[endGrid[0]][endGrid[1]] === 0)
     {
         console.log("can't move into a wall");
         return [];
     }
     var result = astar.search(this.mGraph, s, e);
-    console.log(result);
+    console.log(e);
     return result;
 };
 
@@ -128,12 +122,8 @@ Grid.prototype._addToGrid = function (object)
     maxX = pos[0] + xform.getWidth()/2;
     minY = pos[1] - xform.getHeight()/2;
     maxY = pos[1] + xform.getHeight()/2;
-    console.log(minX);
-    console.log(maxX);
     var start = this._wcToGrid([minX, minY]);
     var end = this._wcToGrid([maxX, maxY]);
-    console.log(start);
-    console.log(end);
     var i;
     for (i = start[0]; i <= end[0]; i++)
     {
