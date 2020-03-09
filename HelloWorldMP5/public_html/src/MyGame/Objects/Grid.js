@@ -10,6 +10,8 @@ function Grid(numXCells, numYCells)
     this.maxX = this.mXform.getPosition()[0] + this.mXform.getWidth()/2;
     this.minY = this.mXform.getPosition()[1] - this.mXform.getHeight()/2;
     this.maxY = this.mXform.getPosition()[1] + this.mXform.getHeight()/2;
+    this.gridLines = []; 
+    
     this._initGrid();
     this.mGraph = new Graph(this.squares);
 }
@@ -191,5 +193,25 @@ Grid.prototype._initGrid = function()
         {
             this.squares[i][j] = 1;
         }
+    }
+    
+//    xStart = 
+//    xEnd = 
+//    deltaX =
+//    
+//    yStart = 
+//    yEnd = 
+//    deltaY = 
+    
+    tempLine = new LineRenderable(100, 110, 1125/14, 1125/14 + 10);
+    this.gridLines.push(tempLine);
+    tempLine = new LineRenderable(100, 150, 1125/14, 1125/14 + 10);
+    this.gridLines.push(tempLine);
+};
+
+Grid.prototype.draw = function(mCamera) {
+    
+    for (i = 0; i < this.gridLines.length; i++) {
+        this.gridLines[i].draw(mCamera); 
     }
 };

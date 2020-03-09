@@ -63,6 +63,7 @@ MyGame.prototype.draw = function () {
     this.mCamera.setupViewProjection();
     this.player.draw(this.mCamera);
     this.wall.draw(this.mCamera);
+    this.mGrid.draw(this.mCamera);
 };
 
 // The Update function, updates the application state. Make sure to _NOT_ draw
