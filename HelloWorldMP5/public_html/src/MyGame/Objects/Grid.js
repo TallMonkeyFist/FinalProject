@@ -11,7 +11,7 @@ function Grid(numXCells, numYCells)
     this.minY = this.mXform.getPosition()[1] - this.mXform.getHeight()/2;
     this.maxY = this.mXform.getPosition()[1] + this.mXform.getHeight()/2;
     this._initGrid();
-    this.mGraph = new Graph(this.squares);
+    this.mGraph = new Graph(this.squares, { diagonal: true });
 }
 
 Grid.prototype._calibrate = function()
@@ -115,20 +115,28 @@ Grid.prototype._addToGrid = function (object)
 {
     var xform = object.getXform();
     var pos = xform.getPosition();
+    var minX, minY, maxX, maxY;
+    minX = pos[0] - xform.getWidth()/2;
+    maxX = pos[0] + xform.getWidth()/2;
+    minY = pos[1] - xform.getHeight()/2;
+    maxY = pos[1] + xform.getHeight()/2;
+    console.log(minX);
+    console.log(maxX);
+    var start = this._wcToGrid([minX, minY]);
+    var end = this._wcToGrid([maxX, maxY]);
+    console.log(start);
+    console.log(end);
     var i;
-    for (i = Math.floor(pos[0] - xform.getWidth()/2); 
-            i < pos[0] + xform.getWidth()/2; i++)
+    for (i = start[0]; i < end[0]; i++)
     {
         var j;
-        for (j = Math.floor(pos[1] - xform.getHeight()/2);
-            j < pos[1] + xform.getHeight()/2; j++)
+        for (j = start[1]; j < end[1];  j++)
         {
-            console.log(i);
             this.squares[i][j] = 0;
         }
     }
     this.mGraph = null;
-    this.mGraph = new Graph(this.squares);
+    this.mGraph = new Graph(this.squares, { diagonal: true });
 };
 
 Grid.prototype._removeFromGrid = function (object)
