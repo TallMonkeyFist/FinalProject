@@ -46,7 +46,7 @@ MyGame.prototype.initialize = function () {
     this.mGrid.setWidth(this.mCamera.getWCWidth());
     this.mGrid.setHeight(this.mCamera.getWCHeight());
     this.player = new Player();
-    this.player.getXform().setPosition(150, 1125/14);
+    this.player.getXform().setPosition(250, 1125/14 + 50);
     this.player.getXform().setSize(10, 10);
     this.walls = new GameObjectSet();
     this._makeWalls();
@@ -69,7 +69,8 @@ MyGame.prototype.draw = function () {
 // anything from this function!
 MyGame.prototype.update = function () 
 {
-    this.player.update(this.mGrid, this.mCamera);   
+    this.player.update(this.mGrid, this.mCamera);  
+    this.mGrid.update(this.mCamera); 
 };
 
 MyGame.prototype._makeWalls = function()

@@ -20,9 +20,18 @@ Player.prototype.update = function(mGrid, camera)
         this.path = result;
         this._makePathLines(mGrid);
     }
+    
+    if(camera.isMouseInViewport() && gEngine.Input.isKeyClicked(gEngine.Input.keys.A)) 
+    {
+        var result = mGrid.search(this.getXform().getPosition(), [camera.mouseWCX(), camera.mouseWCY()]);
+        this.path = result;
+        this._makePathLines(mGrid);
+        this.path = null; 
+    }
+    
     if(gEngine.Input.isKeyClicked(gEngine.Input.keys.Q))
     {
-        var result = mGrid.search(this.getXform().getPosition(), [50, 80]);
+        var result = mGrid.search(this.getXform().getPosition(), [77, 50]);
         this.path = result;
         this._makePathLines(mGrid);
  

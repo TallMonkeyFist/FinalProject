@@ -15,6 +15,7 @@ function Grid(numXCells, numYCells, mCamera)
     
     this._initGrid();
     this.mGraph = new Graph(this.squares, { diagonal: true });
+    this.showGrid = false; 
 }
 
 Grid.prototype._calibrate = function()
@@ -219,7 +220,16 @@ Grid.prototype._initGrid = function()
 };
 
 Grid.prototype.draw = function(mCamera) {
-    for (i = 0; i < this.gridLines.length; i++) {
-        this.gridLines[i].draw(mCamera); 
+    if (this.showGrid) {
+        for (i = 0; i < this.gridLines.length; i++) {
+            this.gridLines[i].draw(mCamera); 
+        }
+    }
+};
+
+Grid.prototype.update = function(mCamera) {
+    if(gEngine.Input.isKeyClicked(gEngine.Input.keys.G))
+    {
+        this.showGrid = !this.showGrid; 
     }
 };
