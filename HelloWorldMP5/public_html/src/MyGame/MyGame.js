@@ -16,9 +16,8 @@ function MyGame() {
     this.mCamera = null;
     this.kSpriteSheet = "assets/SpriteSheet.png";
     this.mGrid = null;
-    this.mGraph = null;
-    this.start = null;
-    this.end = null;
+    this.player = null;
+    this.wall = null;
 }
 gEngine.Core.inheritPrototype(MyGame, Scene);
 
@@ -41,14 +40,19 @@ MyGame.prototype.initialize = function () {
     //1400/750 = 300/x
     this.mCamera.setBackgroundColor([0.8, 0.8, 0.8, 1]);
             // sets the background to gray
-    this.mGrid = new Grid(100, 100);
-   // var gXform = this.mGrid.getXform();
+    this.mGrid = new Grid(1000, 1000);
     var center = this.mCamera.getWCCenter();
-    //gXform.setPosition(center[0], center[1]);
-    //gXform.setWidth(this.mCamera.getWCWidth());
-    //gXform.setHeight(this.mCamera.getWCHeight());
-    this.mGraph = new Graph(this.mGrid.getArray());
-    this.start = this.mGraph.grid[0][0];
+    this.mGrid.setPosition(center[0], center[1]);
+    this.mGrid.setWidth(this.mCamera.getWCWidth());
+    this.mGrid.setHeight(this.mCamera.getWCHeight());
+    this.player = new Player();
+    this.player.getXform().setPosition(150, 1125/14);
+    this.player.getXform().setSize(10, 10);
+    this.wall = new Renderable();
+    this.wall.setColor([0, 1, .75, 1]);
+    this.wall.getXform().setPosition(100, 1125/14);
+    this.wall.getXform().setSize(10, 100);
+    this.mGrid.addStatic(this.wall);
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more
@@ -57,16 +61,13 @@ MyGame.prototype.draw = function () {
     gEngine.Core.clearCanvas([0.9, 0.9, 0.9, 1.0]); // clear to light gray
 
     this.mCamera.setupViewProjection();
+    this.player.draw(this.mCamera);
+    this.wall.draw(this.mCamera);
 };
 
 // The Update function, updates the application state. Make sure to _NOT_ draw
 // anything from this function!
 MyGame.prototype.update = function () 
 {
-    if(gEngine.Input.isKeyClicked(gEngine.Input.keys.Q))
-    {
-        this.end = this.mGraph.grid[1][2];
-        var result = astar.search(this.mGraph, this.start, this.end);
-        console.log(result);
-    }
+    this.player.update(this.mGrid);   
 };
