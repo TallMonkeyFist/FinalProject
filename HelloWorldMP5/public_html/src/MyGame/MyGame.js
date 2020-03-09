@@ -40,13 +40,13 @@ MyGame.prototype.initialize = function () {
     //1400/750 = 300/x
     this.mCamera.setBackgroundColor([0.8, 0.8, 0.8, 1]);
             // sets the background to gray
-    this.mGrid = new Grid(100, 100, this.mCamera);
+    this.mGrid = new Grid(50, 50, this.mCamera);
     var center = this.mCamera.getWCCenter();
     this.mGrid.setPosition(center[0], center[1]);
     this.mGrid.setWidth(this.mCamera.getWCWidth());
     this.mGrid.setHeight(this.mCamera.getWCHeight());
     this.player = new Player();
-    this.player.getXform().setPosition(150, 1125/14);
+    this.player.getXform().setPosition(250, 1125/14 + 50);
     this.player.getXform().setSize(10, 10);
     this.walls = new GameObjectSet();
     this._makeWalls();
@@ -69,7 +69,8 @@ MyGame.prototype.draw = function () {
 // anything from this function!
 MyGame.prototype.update = function () 
 {
-    this.player.update(this.mGrid, this.mCamera);   
+    this.player.update(this.mGrid, this.mCamera);  
+    this.mGrid.update(this.mCamera); 
 };
 
 MyGame.prototype._makeWalls = function()
