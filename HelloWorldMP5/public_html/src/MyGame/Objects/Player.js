@@ -18,32 +18,20 @@ Player.prototype.update = function(mGrid, camera)
     {
         var result = mGrid.search(this.getXform().getPosition(), [camera.mouseWCX(), camera.mouseWCY()]);
         this.path = result;
+        this._makePathLines(mGrid);
     }
     if(gEngine.Input.isKeyClicked(gEngine.Input.keys.Q))
     {
         var result = mGrid.search(this.getXform().getPosition(), [50, 80]);
         this.path = result;
-        
-        var i = 0; 
-        for(i = 0; i < this.path.length - 2; i++) {
-            var startNode = this.path[i];
-//            console.log(startNode);
-//            console.log(startNode.x); 
-//            console.log(startNode.y);
-            var endNode = this.path[i + 1];
-//            console.log(endNode.x); 
-//            console.log(endNode.y);
-            var tempLine = new LineRenderable(startNode.x, 
-                    startNode.y, 
-                    endNode.x, 
-                    endNode.y);
-            this.pathLines.push(tempLine); 
-        }  
+        this._makePathLines(mGrid);
+ 
     }
     
     if(this.path !== null && this.path.length > 0)
     {
         var node = this.path.splice(0,1);
+        this.pathLines.splice(0, 1);
         mGrid.moveObject(this, [node[0].x, node[0].y]);
         if(this._arrived())
         {
@@ -64,9 +52,28 @@ Player.prototype._arrived = function()
 Player.prototype.draw = function(mCamera) 
 {
   this.square.draw(mCamera)
-//  console.log(this.pathLines.length);
+};
+
+Player.prototype.drawPath = function(mCamera) 
+{
   var i = 0; 
   for (i = 0; i < this.pathLines.length; i++) {
       this.pathLines[i].draw(mCamera);
-  }
+  }   
+};
+
+Player.prototype._makePathLines = function(mGrid) {
+    this.pathLines = [];
+    var i = 0; 
+    for(i = 0; i < this.path.length - 2; i++) {
+        var startNode = mGrid.gridToWC([this.path[i].x, this.path[i].y]);
+        var endNode = mGrid.gridToWC([this.path[i + 1].x, this.path[i].y + 1]);
+        var tempLine = new LineRenderable(
+                startNode[0], 
+                startNode[1], 
+                endNode[0], 
+                endNode[1]);
+        tempLine.setColor([1, 0, 0, 1]);
+        this.pathLines.push(tempLine); 
+    }    
 };

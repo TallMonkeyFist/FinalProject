@@ -86,7 +86,7 @@ Grid.prototype.addStatic = function(object)
 Grid.prototype.moveObject = function(object, gridPosition)
 {
     var xform = object.getXform();
-    var wcPos = this._gridToWC(gridPosition);
+    var wcPos = this.gridToWC(gridPosition);
     xform.setPosition(wcPos[0], wcPos[1]);
 };
 
@@ -185,7 +185,7 @@ Grid.prototype._wcToGrid = function(position)
     return [Math.floor(x),Math.floor(y)];
 };
 
-Grid.prototype._gridToWC = function(position)
+Grid.prototype.gridToWC = function(position)
 {
     var x = ((position[0]/this.xCell)*this.mXform.getWidth()) + this.minX;
     var y = ((position[1]/this.yCell)*this.mXform.getHeight()) + this.minY;
@@ -215,8 +215,6 @@ Grid.prototype._initGrid = function()
     
     yStart = this.mCamera.getWCCenter()[1] - this.mCamera.getWCHeight() / 2; 
     yEnd = this.mCamera.getWCCenter()[1] + this.mCamera.getWCHeight() / 2; 
-    console.log(yStart)
-    console.log(yEnd)
     deltaY = (yEnd - yStart) / this.yCell; 
     
     for (i = xStart; i <= xEnd; i = i + deltaX) {
@@ -231,7 +229,6 @@ Grid.prototype._initGrid = function()
 };
 
 Grid.prototype.draw = function(mCamera) {
-    console.log(this.gridLines.length);
     for (i = 0; i < this.gridLines.length; i++) {
         this.gridLines[i].draw(mCamera); 
     }
