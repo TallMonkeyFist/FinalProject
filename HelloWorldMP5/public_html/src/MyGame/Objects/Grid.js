@@ -1,7 +1,8 @@
 
-function Grid(numXCells, numYCells)
+function Grid(numXCells, numYCells, mCamera)
 {
     this.mXform = new Transform();
+    this.mCamera = mCamera; 
     this.xCell = numXCells;
     this.yCell = numYCells;
     this.squares = new Array(this.xCell);
@@ -208,22 +209,29 @@ Grid.prototype._initGrid = function()
         }
     }
     
-//    xStart = 
-//    xEnd = 
-//    deltaX =
-//    
-//    yStart = 
-//    yEnd = 
-//    deltaY = 
+    xStart = this.mCamera.getWCCenter()[0] - this.mCamera.getWCWidth() / 2; 
+    xEnd = this.mCamera.getWCCenter()[0] + this.mCamera.getWCWidth() / 2; 
+    deltaX = (xEnd - xStart) / this.xCell; 
     
-    tempLine = new LineRenderable(100, 110, 1125/14, 1125/14 + 10);
-    this.gridLines.push(tempLine);
-    tempLine = new LineRenderable(100, 150, 1125/14, 1125/14 + 10);
-    this.gridLines.push(tempLine);
+    yStart = this.mCamera.getWCCenter()[1] - this.mCamera.getWCHeight() / 2; 
+    yEnd = this.mCamera.getWCCenter()[1] + this.mCamera.getWCHeight() / 2; 
+    console.log(yStart)
+    console.log(yEnd)
+    deltaY = (yEnd - yStart) / this.yCell; 
+    
+    for (i = xStart; i <= xEnd; i = i + deltaX) {
+        tempLine = new LineRenderable(i, yStart, i, yEnd); 
+        this.gridLines.push(tempLine);
+    }
+    
+    for (i = yStart; i <= yEnd; i = i + deltaY) {
+        tempLine = new LineRenderable(xStart, i, xEnd, i); 
+        this.gridLines.push(tempLine);        
+    }
 };
 
 Grid.prototype.draw = function(mCamera) {
-    
+    console.log(this.gridLines.length);
     for (i = 0; i < this.gridLines.length; i++) {
         this.gridLines[i].draw(mCamera); 
     }

@@ -17,7 +17,7 @@ function MyGame() {
     this.kSpriteSheet = "assets/SpriteSheet.png";
     this.mGrid = null;
     this.player = null;
-    this.wall = null;
+    this.walls = null;
 }
 gEngine.Core.inheritPrototype(MyGame, Scene);
 
@@ -40,7 +40,7 @@ MyGame.prototype.initialize = function () {
     //1400/750 = 300/x
     this.mCamera.setBackgroundColor([0.8, 0.8, 0.8, 1]);
             // sets the background to gray
-    this.mGrid = new Grid(1000, 1000);
+    this.mGrid = new Grid(100, 100, this.mCamera);
     var center = this.mCamera.getWCCenter();
     this.mGrid.setPosition(center[0], center[1]);
     this.mGrid.setWidth(this.mCamera.getWCWidth());
@@ -48,11 +48,8 @@ MyGame.prototype.initialize = function () {
     this.player = new Player();
     this.player.getXform().setPosition(150, 1125/14);
     this.player.getXform().setSize(10, 10);
-    this.wall = new Renderable();
-    this.wall.setColor([0, 1, .75, 1]);
-    this.wall.getXform().setPosition(100, 1125/14);
-    this.wall.getXform().setSize(10, 100);
-    this.mGrid.addStatic(this.wall);
+    this.walls = new GameObjectSet();
+    this._makeWalls();
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more
@@ -62,7 +59,7 @@ MyGame.prototype.draw = function () {
 
     this.mCamera.setupViewProjection();
     this.player.draw(this.mCamera);
-    this.wall.draw(this.mCamera);
+    this.walls.draw(this.mCamera);
     this.mGrid.draw(this.mCamera);
 };
 
@@ -71,4 +68,45 @@ MyGame.prototype.draw = function () {
 MyGame.prototype.update = function () 
 {
     this.player.update(this.mGrid, this.mCamera);   
+};
+
+MyGame.prototype._makeWalls = function()
+{
+    
+    var wall = new Renderable();
+    wall.setColor([0, 1, .75, 1]);
+    wall.getXform().setPosition(100, (1125/14) - 10);
+    wall.getXform().setSize(5, 80);
+    var wall2 = new Renderable();
+    wall2.setColor([0, 1, .75, 1]);
+    wall2.getXform().setPosition(50, 1125/14);
+    wall2.getXform().setSize(5, 100);
+    var wall3 = new Renderable();
+    wall3.setColor([0, 1, .75, 1]);
+    wall3.getXform().setPosition(150, 1125/14);
+    wall3.getXform().setSize(5, 100);
+    var wall4 = new Renderable();
+    wall4.setColor([0, 1, .75, 1]);
+    wall4.getXform().setPosition(75, 32.5);
+    wall4.getXform().setSize(50, 5);
+    var wall5 = new Renderable();
+    wall5.setColor([0, 1, .75, 1]);
+    wall5.getXform().setPosition(100, 130);
+    wall5.getXform().setSize(100, 5);
+    var wall6 = new Renderable();
+    wall6.setColor([0, 1, .75, 1]);
+    wall6.getXform().setPosition(250, 35);
+    wall6.getXform().setSize(10, 100);
+    this.walls.addToSet(wall);
+    this.walls.addToSet(wall2);
+    this.walls.addToSet(wall3);
+    this.walls.addToSet(wall4);
+    this.walls.addToSet(wall5);
+    this.walls.addToSet(wall6);
+    this.mGrid.addStatic(wall);
+    this.mGrid.addStatic(wall2);
+    this.mGrid.addStatic(wall3);
+    this.mGrid.addStatic(wall4);
+    this.mGrid.addStatic(wall5);
+    this.mGrid.addStatic(wall6);
 };
