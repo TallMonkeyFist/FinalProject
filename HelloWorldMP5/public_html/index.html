@@ -71,5 +71,14 @@
             Your browser does not support the HTML5 canvas.
             <!-- this message will show only if WebGL clearing failed -->
         </canvas>
+                        <br>
+        <div id='UpdateFrame'></div>
+        <hr>
+        <script>
+        var gUpdateFrame = function(message) {
+            var elm = document.getElementById("UpdateFrame");
+            elm.innerHTML = message; 
+        };
+        </script>
     </body>
 </html>
