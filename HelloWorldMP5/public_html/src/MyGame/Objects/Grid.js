@@ -43,6 +43,11 @@ Grid.prototype.search = function(start, end)
     var e = this.mGraph.grid[endGrid[0]][endGrid[1]];
     console.log(startGrid);
     console.log(endGrid);
+    if (this.squares[endGrid[0]][endGrid[1]] === 0)
+    {
+        console.log("can't move into a wall");
+        return [];
+    }
     var result = astar.search(this.mGraph, s, e);
     console.log(result);
     return result;
