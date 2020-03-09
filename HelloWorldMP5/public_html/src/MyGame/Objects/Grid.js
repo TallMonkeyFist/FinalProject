@@ -44,6 +44,7 @@ Grid.prototype.search = function(start, end)
         gUpdateFrame("Can't move into a wall");
         return [];
     }
+    gUpdateFrame("Moving to cell: " + endGrid[0] + ", " + endGrid[1]);
     var result = astar.search(this.mGraph   , s, e);
     console.log(e);
     return result;

@@ -60,7 +60,7 @@ Player.prototype._arrived = function()
 
 Player.prototype.draw = function(mCamera) 
 {
-  this.square.draw(mCamera)
+  this.square.draw(mCamera);
 };
 
 Player.prototype.drawPath = function(mCamera) 
