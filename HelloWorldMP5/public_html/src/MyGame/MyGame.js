@@ -70,5 +70,5 @@ MyGame.prototype.draw = function () {
 // anything from this function!
 MyGame.prototype.update = function () 
 {
-    this.player.update(this.mGrid);   
+    this.player.update(this.mGrid, this.mCamera);   
 };
