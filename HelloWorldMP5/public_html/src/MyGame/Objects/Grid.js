@@ -80,9 +80,8 @@ Grid.prototype.addStatic = function(object)
     this.object.push(object);
 };
 
-Grid.prototype.moveObject = function(object, gridPosition)
+Grid.prototype.moveObject = function(xform, gridPosition)
 {
-    var xform = object.getXform();
     var wcPos = this.gridToWC(gridPosition);
     xform.setPosition(wcPos[0], wcPos[1]);
 };

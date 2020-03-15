@@ -3,16 +3,22 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Isaiah%20Snow/Desktop/School/CSS%20452/Assignment4/IsaiahSnowMP4/public_html/src/Engine/Utils/InterpolateVec2.js</file>
-            <file>file:/C:/Users/Isaiah%20Snow/Desktop/School/CSS%20452/Assignment4/IsaiahSnowMP4/public_html/src/MyGame/MyGame.js</file>
-            <file>file:/C:/Users/Isaiah%20Snow/Desktop/School/CSS%20452/Assignment4/IsaiahSnowMP4/public_html/src/Engine/Utils/Interpolate.js</file>
-            <file>file:/C:/Users/Isaiah%20Snow/Desktop/School/CSS%20452/Assignment4/IsaiahSnowMP4/public_html/src/Engine/Core/Engine_Core.js</file>
-            <file>file:/C:/Users/Isaiah%20Snow/Desktop/School/CSS%20452/Assignment4/IsaiahSnowMP4/public_html/assets/SpriteSheet.png</file>
-            <file>file:/C:/Users/Isaiah%20Snow/Desktop/School/CSS%20452/Assignment4/IsaiahSnowMP4/public_html/src/Engine/Core/Engine_Input.js</file>
-            <file>file:/C:/Users/Isaiah%20Snow/Desktop/School/CSS%20452/Assignment4/IsaiahSnowMP4/public_html/index.html</file>
-            <file>file:/C:/Users/Isaiah%20Snow/Desktop/School/CSS%20452/Assignment4/IsaiahSnowMP4/public_html/src/GLSLShaders/LineFS.glsl</file>
-            <file>file:/C:/Users/Isaiah%20Snow/Desktop/School/CSS%20452/Assignment4/IsaiahSnowMP4/public_html/src/Engine/Shaders/SimpleShader.js</file>
-            <file>file:/C:/Users/Isaiah%20Snow/Desktop/School/CSS%20452/Assignment4/IsaiahSnowMP4/public_html/src/Engine/Renderables/SpriteRenderable.js</file>
+            <file>file:/C:/Users/Isaiah%20Snow/Desktop/School/CSS%20452/FinalProject/FinalProject/HelloWorldMP5/public_html/src/MyGame/Objects/Grid.js</file>
+            <file>file:/C:/Users/Isaiah%20Snow/Desktop/School/CSS%20452/FinalProject/FinalProject/HelloWorldMP5/public_html/src/Engine/Renderables/Renderable.js</file>
+            <file>file:/C:/Users/Isaiah%20Snow/Desktop/School/CSS%20452/FinalProject/FinalProject/HelloWorldMP5/public_html/index.html</file>
+            <file>file:/C:/Users/Isaiah%20Snow/Desktop/School/CSS%20452/FinalProject/FinalProject/HelloWorldMP5/public_html/src/Engine/GameObjects/GameObject.js</file>
+            <file>file:/C:/Users/Isaiah%20Snow/Desktop/School/CSS%20452/FinalProject/FinalProject/HelloWorldMP5/public_html/src/Engine/GameObjects/GameObjectSet.js</file>
+            <file>file:/C:/Users/Isaiah%20Snow/Desktop/School/CSS%20452/FinalProject/FinalProject/HelloWorldMP5/public_html/src/MyGame/Objects/Player.js</file>
+            <file>file:/C:/Users/Isaiah%20Snow/Desktop/School/CSS%20452/FinalProject/FinalProject/HelloWorldMP5/public_html/src/Engine/GameObjects/GameObject_PixelCollision.js</file>
+            <file>file:/C:/Users/Isaiah%20Snow/Desktop/School/CSS%20452/FinalProject/FinalProject/HelloWorldMP5/public_html/src/Engine/Cameras/CameraState.js</file>
+            <file>file:/C:/Users/Isaiah%20Snow/Desktop/School/CSS%20452/FinalProject/FinalProject/HelloWorldMP5/public_html/src/Engine/Core/Engine_Input.js</file>
+            <file>file:/C:/Users/Isaiah%20Snow/Desktop/School/CSS%20452/FinalProject/FinalProject/HelloWorldMP5/public_html/src/Engine/Cameras/Camera_Manipulation.js</file>
+            <file>file:/C:/Users/Isaiah%20Snow/Desktop/School/CSS%20452/FinalProject/FinalProject/HelloWorldMP5/public_html/src/MyGame/Objects/astar.js</file>
+            <file>file:/C:/Users/Isaiah%20Snow/Desktop/School/CSS%20452/FinalProject/FinalProject/HelloWorldMP5/public_html/src/Engine/Utils/Transform.js</file>
+            <file>file:/C:/Users/Isaiah%20Snow/Desktop/School/CSS%20452/FinalProject/FinalProject/HelloWorldMP5/public_html/src/Engine/Renderables/LineRenderable.js</file>
+            <file>file:/C:/Users/Isaiah%20Snow/Desktop/School/CSS%20452/FinalProject/FinalProject/HelloWorldMP5/public_html/src/MyGame/MyGame.js</file>
+            <file>file:/C:/Users/Isaiah%20Snow/Desktop/School/CSS%20452/FinalProject/FinalProject/HelloWorldMP5/public_html/src/Engine/Cameras/Camera.js</file>
+            <file>file:/C:/Users/Isaiah%20Snow/Desktop/School/CSS%20452/FinalProject/FinalProject/HelloWorldMP5/public_html/src/Engine/Cameras/Camera_Input.js</file>
         </group>
     </open-files>
 </project-private>

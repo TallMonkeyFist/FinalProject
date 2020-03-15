@@ -45,7 +45,7 @@ MyGame.prototype.initialize = function () {
     this.mGrid.setPosition(center[0], center[1]);
     this.mGrid.setWidth(this.mCamera.getWCWidth());
     this.mGrid.setHeight(this.mCamera.getWCHeight());
-    this.player = new Player();
+    this.player = new Player(this.mGrid);
     this.player.getXform().setPosition(250, 1125/14 + 50);
     this.player.getXform().setSize(10, 10);
     this.walls = new GameObjectSet();
@@ -61,7 +61,6 @@ MyGame.prototype.draw = function () {
     this.player.draw(this.mCamera);
     this.walls.draw(this.mCamera);
     this.mGrid.draw(this.mCamera);
-    this.player.drawPath(this.mCamera);
 
 };
 
