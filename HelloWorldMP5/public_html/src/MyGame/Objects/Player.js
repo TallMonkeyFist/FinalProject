@@ -1,5 +1,5 @@
 
-"use strict"
+"use strict";
 
 function Player(mGrid)
 {
@@ -9,7 +9,9 @@ function Player(mGrid)
     this.pathLines = []; 
     GameObject.call(this, this.square);
     this.mPath = new Path(mGrid, this.getXform());
-
+    this.mPath.setGrid(mGrid);
+    this.mPath.setSpeed(150);
+    this.mSpeed = 5;
 }
 
 gEngine.Core.inheritPrototype(Player, GameObject);
@@ -32,7 +34,7 @@ Player.prototype.update = function(mGrid, camera)
  
     }
     
-    this.mPath.update(camera);
+    this.mPath.update(camera, this.mSpeed);
 };
 
 Player.prototype.draw = function(mCamera) 

@@ -12,14 +12,34 @@ function Path(grid, xform)
     this.pathLines = []; 
     this.showPath = true;
     this.xform = xform;
+    this.speed = 1;
+    this.deltaX = 1;
+    this.deltaY = 1;
+    this.xRatio = 1;
+    this.yRatio = 1;
+    this.currentPosition = this.xform.getPosition();
+    this.nextPosition = null;
 }
+
+gEngine.Core.inheritPrototype(Path, GameObject);
 
 Path.prototype.setGrid = function(grid)
 {
     this.mGrid = grid;
+    var cells = grid.getCellSize();
+    var wc = grid.getSize();
+    this.xRatio = cells[0] / wc[0];
+    this.yRatio = cells[1] / wc[1];
+    this.setSpeed(this.speed);
 };
 
-gEngine.Core.inheritPrototype(Path, GameObject);
+Path.prototype.setSpeed = function(speed)
+{
+    this.speed = speed;
+    this.deltaX = this.speed * this.xRatio / 60;
+    this.deltaY = this.speed * this.yRatio / 60;
+};
+
 
 Path.prototype.findPath = function(start, end)
 {
@@ -42,9 +62,23 @@ Path.prototype.update = function()
 {
     if(this.path !== null && this.path.length > 0)
     {
-        var node = this.path.splice(0,1);
-        this.pathLines.splice(0, 1);
-        this.mGrid.moveObject(this.xform, [node[0].x, node[0].y]);
+        var next = this._checkNextNode();
+        
+        if(next[0] === 0 && next[1] === 0)
+        {
+            console.log(this.path[0]);
+            if(this.path.length <= 1)
+            {
+                this.path = null;
+                return;
+            }
+            this.path.splice(0,1);
+            this.pathLines.splice(0, 1);
+            next = this._checkNextNode();
+        }
+        
+        this.xform.incXPosBy(next[0]);
+        this.xform.incYPosBy(next[1]);
         if(this._arrived())
         {
             this.path = null;
@@ -62,6 +96,32 @@ Path.prototype.draw = function(mCamera)
         this._drawPath(mCamera);
 };
 
+Path.prototype._checkNextNode = function()
+{
+    this.currentPos = this.xform.getPosition();
+    var gridCoord = [this.path[0].x, this.path[0].y];
+    this.nextPosition = this.mGrid.gridToWC(gridCoord);
+  
+    var nextUpdate = [0,0];
+    if(this.xform.getXPos() > this.nextPosition[0] + this.deltaX - .001)
+    {
+        nextUpdate[0] = -this.deltaX;
+    }
+    else if (this.xform.getXPos() < this.nextPosition[0] - this.deltaX + .001)
+    {
+        nextUpdate[0] = this.deltaX;
+    }
+    if(this.xform.getYPos() > this.nextPosition[1] + this.deltaY - .001)
+    {
+        nextUpdate[1] = -this.deltaY;
+    }
+    else if (this.xform.getYPos() < this.nextPosition[1] - this.deltaY + .001)
+    {
+        nextUpdate[1] = this.deltaY;
+    }
+    return nextUpdate;
+};
+
 Path.prototype._drawPath = function(mCamera) 
 {
   var i = 0; 
@@ -75,7 +135,7 @@ Path.prototype._makePathLines = function() {
     if (this.path !== null && this.path.length !== 0) {
         var i = 0; 
         var firstStep = this.mGrid.gridToWC([this.path[0].x, this.path[0].y]);
-        tempLine = new LineRenderable(
+        var tempLine = new LineRenderable(
                 this.xform.getPosition()[0],
                 this.xform.getPosition()[1],
                 firstStep[0], 
