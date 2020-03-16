@@ -1,7 +1,7 @@
 
 "use strict";
 
-function Player(mGrid)
+function Enemy(mGrid)
 {
     this.square = new Renderable();
     this.square.setColor([1, 0, 0, 1]);
@@ -17,26 +17,26 @@ function Player(mGrid)
     this.mPath.setSpeed(150);
 }
 
-gEngine.Core.inheritPrototype(Player, GameObject);
+gEngine.Core.inheritPrototype(Enemy, GameObject);
 
-Player.prototype.update = function(mGrid, camera)
+Enemy.prototype.update = function(mGrid, camera)
 {    
     // Inputs
-    if(camera.isMouseInViewport() && gEngine.Input.isButtonClicked(gEngine.Input.mouseButton.Left))
-    {
-        this.mPath.findPath(this.getXform().getPosition(), [camera.mouseWCX(), camera.mouseWCY()]);
-    }
-    
-    if(camera.isMouseInViewport() && gEngine.Input.isKeyClicked(gEngine.Input.keys.A)) 
-    {
-        this.mPath.findPathLines(this.getXform().getPosition(), [camera.mouseWCX(), camera.mouseWCY()]);
-    }
-    
-    if(gEngine.Input.isKeyClicked(gEngine.Input.keys.Q))
-    {
-        this.mPath.findPath(this.getXform().getPosition(), [77, 50]);
- 
-    }
+//    if(camera.isMouseInViewport() && gEngine.Input.isButtonClicked(gEngine.Input.mouseButton.Left))
+//    {
+//        this.mPath.findPath(this.getXform().getPosition(), [camera.mouseWCX(), camera.mouseWCY()]);
+//    }
+//    
+//    if(camera.isMouseInViewport() && gEngine.Input.isKeyClicked(gEngine.Input.keys.A)) 
+//    {
+//        this.mPath.findPathLines(this.getXform().getPosition(), [camera.mouseWCX(), camera.mouseWCY()]);
+//    }
+//    
+//    if(gEngine.Input.isKeyClicked(gEngine.Input.keys.Q))
+//    {
+//        this.mPath.findPath(this.getXform().getPosition(), [77, 50]);
+// 
+//    }
 
     if(gEngine.Input.isKeyClicked(gEngine.Input.keys.W))
     {
@@ -78,12 +78,12 @@ Player.prototype.update = function(mGrid, camera)
     this.mPath.update(camera, this.mSpeed);
 };
 
-Player.prototype.setSpeed = function(speed)
+Enemy.prototype.setSpeed = function(speed)
 {
     this.mPath.setSpeed(speed);
 };
 
-Player.prototype.setWayPoints = function(input)
+Enemy.prototype.setWayPoints = function(input)
 {
     this.wayPoints = input; 
     this.followWayPoints = true; 
@@ -91,7 +91,7 @@ Player.prototype.setWayPoints = function(input)
     console.log(this.wayPoints);
 };
 
-Player.prototype.draw = function(mCamera) 
+Enemy.prototype.draw = function(mCamera) 
 {
   this.square.draw(mCamera);
   

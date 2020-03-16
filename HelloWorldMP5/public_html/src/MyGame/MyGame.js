@@ -18,6 +18,7 @@ function MyGame() {
     this.kSceneFile = "assets/scene.json";
     this.mGrid = null;
     this.player = null;
+    this.enemies = []; 
     this.walls = null;
     this.sceneParser = null;
 }
@@ -55,8 +56,18 @@ MyGame.prototype.initialize = function () {
     this.player = new Player(this.mGrid);
     this.player.getXform().setPosition(250, 1125/14 + 50);
     this.player.getXform().setSize(10, 10);
+  
     this.walls = new GameObjectSet();
     this._makeWalls();
+    
+    this.enemies = []; 
+    var enemy = new Enemy(this.mGrid);
+    enemy.getXform().setPosition(30, 1125/14 + 50);
+    enemy.getXform().setSize(5, 5);
+    var wayPoints = [[20, 25], [20, 150], [200, 150], [200, 25]];
+    enemy.setWayPoints(wayPoints); 
+    
+    this.enemies.push(enemy);
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more
@@ -68,6 +79,11 @@ MyGame.prototype.draw = function () {
     this.walls.draw(this.mCamera);
     this.mGrid.draw(this.mCamera);
     this.player.draw(this.mCamera);
+    
+    var i; 
+    for (i = 0; i < this.enemies.length; i++) {
+        this.enemies[i].draw(this.mCamera);
+    }
 
 };
 
@@ -75,9 +91,26 @@ MyGame.prototype.draw = function () {
 // anything from this function!
 MyGame.prototype.update = function () 
 {
+    // Shows Player Paths 
+    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.H)) 
+    {
+        this.player.showPath = !this.player.showPath;
+    }
+    
+    // Shows Enemy Paths
+    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.J)) 
+    {
+        for (i = 0; i < this.enemies.length; i++) {
+            this.enemies[i].showPath = !this.enemies[i].showPath;
+        }
+    }
     this.player.update(this.mGrid, this.mCamera);  
     this.mGrid.update(this.mCamera); 
     
+    var i; 
+    for (i = 0; i < this.enemies.length; i++) {
+        this.enemies[i].update(this.mGrid, this.mCamera);
+    }
 };
 
 MyGame.prototype._makeWalls = function()
