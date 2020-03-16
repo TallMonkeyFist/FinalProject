@@ -82,47 +82,26 @@ MyGame.prototype.update = function ()
 MyGame.prototype._makeWalls = function()
 {   
     this.sceneParser.parseWalls("JSON", this.walls, this.mGrid);
+        
+    var wall1 = new Renderable();
+    wall1.setColor([0, 1, .75, 1]);
+    wall1.getXform().setPosition(75, 32.5);
+    wall1.getXform().setSize(50, 5);
     
-//    var wall = new Renderable();
-//    wall.setColor([0, 1, .75, 1]);
-//    wall.getXform().setPosition(100, (1125/14) - 10);
-//    wall.getXform().setSize(5, 80);
+    var wall2 = new Renderable();
+    wall2.setColor([0, 1, .75, 1]);
+    wall2.getXform().setPosition(100, 130);
+    wall2.getXform().setSize(100, 5);
+    
+    var wall3 = new Renderable();
+    wall3.setColor([0, 1, .75, 1]);
+    wall3.getXform().setPosition(250, 35);
+    wall3.getXform().setSize(10, 100);
 //    
-//    var wall2 = new Renderable();
-//    wall2.setColor([0, 1, .75, 1]);
-//    wall2.getXform().setPosition(50, 1125/14);
-//    wall2.getXform().setSize(5, 100);
-//    
-//    var wall3 = new Renderable();
-//    wall3.setColor([0, 1, .75, 1]);
-//    wall3.getXform().setPosition(150, 1125/14);
-//    wall3.getXform().setSize(5, 100);
-//    
-//    var wall4 = new Renderable();
-//    wall4.setColor([0, 1, .75, 1]);
-//    wall4.getXform().setPosition(75, 32.5);
-//    wall4.getXform().setSize(50, 5);
-//    
-//    var wall5 = new Renderable();
-//    wall5.setColor([0, 1, .75, 1]);
-//    wall5.getXform().setPosition(100, 130);
-//    wall5.getXform().setSize(100, 5);
-//    
-//    var wall6 = new Renderable();
-//    wall6.setColor([0, 1, .75, 1]);
-//    wall6.getXform().setPosition(250, 35);
-//    wall6.getXform().setSize(10, 100);
-//    
-//    this.walls.addToSet(wall);
-//    this.walls.addToSet(wall2);
-//    this.walls.addToSet(wall3);
-//    this.walls.addToSet(wall4);
-//    this.walls.addToSet(wall5);
-//    this.walls.addToSet(wall6);
-//    this.mGrid.addStatic(wall);
-//    this.mGrid.addStatic(wall2);
-//    this.mGrid.addStatic(wall3);
-//    this.mGrid.addStatic(wall4);
-//    this.mGrid.addStatic(wall5);
-//    this.mGrid.addStatic(wall6);
+    this.walls.addToSet(wall1);
+    this.walls.addToSet(wall2);
+    this.walls.addToSet(wall3);
+    this.mGrid.addStatic(wall1);
+    this.mGrid.addStatic(wall2);
+    this.mGrid.addStatic(wall3);
 };
