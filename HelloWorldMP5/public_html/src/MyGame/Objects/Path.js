@@ -26,7 +26,7 @@ gEngine.Core.inheritPrototype(Path, GameObject);
 Path.prototype.setGrid = function(grid)
 {
     this.mGrid = grid;
-    var cells = grid.getCellSize();
+    var cells = grid.getCellCount();
     var wc = grid.getSize();
     this.xRatio = cells[0] / wc[0];
     this.yRatio = cells[1] / wc[1];
