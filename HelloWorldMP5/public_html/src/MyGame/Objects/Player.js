@@ -15,63 +15,67 @@ function Player(mGrid)
     this.followWayPoints = true;
     this.mPath.setGrid(mGrid);
     this.mPath.setSpeed(150);
+    this.isActive = false; 
 }
 
 gEngine.Core.inheritPrototype(Player, GameObject);
 
 Player.prototype.update = function(mGrid, camera)
 {    
-    // Inputs
-    if(camera.isMouseInViewport() && gEngine.Input.isButtonClicked(gEngine.Input.mouseButton.Left))
+    if (this.isActive)
     {
-        this.mPath.findPath(this.getXform().getPosition(), [camera.mouseWCX(), camera.mouseWCY()]);
-    }
-    
-    if(camera.isMouseInViewport() && gEngine.Input.isKeyClicked(gEngine.Input.keys.A)) 
-    {
-        this.mPath.findPathLines(this.getXform().getPosition(), [camera.mouseWCX(), camera.mouseWCY()]);
-    }
-    
-    if(gEngine.Input.isKeyClicked(gEngine.Input.keys.Q))
-    {
-        this.mPath.findPath(this.getXform().getPosition(), [77, 50]);
- 
-    }
-
-    if(gEngine.Input.isKeyClicked(gEngine.Input.keys.W))
-    {
-        this.followWayPoints = !this.followWayPoints;
-    }
-    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.M))
-    {
-        this.mPath.setSpeed(this.mPath.speed - 5);
-    }
-    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.N))
-    {
-        this.mPath.setSpeed(this.mPath.speed + 5);
-    }
- 
-//    if (this.followWayPoints) 
-//    {
-//        var destination = this.wayPoints[this.currPathIndex];
-//        this.mPath.findPath(this.getXform().getPosition(), [destination[0], destination[1]]);
-//        
-//        if(this.path === null || this.path.length === 0) {
-//            var destination = this.wayPoints[this.currPathIndex + 1];
-//            this.mPath.findPath(this.getXform().getPosition(), [destination[0], destination[1]]);
-//        }
-//    }
-
-    if (this.followWayPoints && this.wayPoints !== null) 
-    {
-        if (this.mPath.path === null || this.mPath.path.length === 1)  
+        // Inputs
+        if(camera.isMouseInViewport() && gEngine.Input.isButtonClicked(gEngine.Input.mouseButton.Left))
         {
-            this.mPath.findMultiPath(this.getXform().getPosition(), this.wayPoints);
-//            this.mPath.findPath(this.getXform().getPosition(), this.wayPoints[this.currPathIndex]);
-//            this.currPathIndex = this.currPathIndex + 1; 
-//            if (this.currPathIndex >= this.wayPoints.length) {
-//                this.currPathIndex = 0; 
-//            }
+            this.mPath.findPath(this.getXform().getPosition(), [camera.mouseWCX(), camera.mouseWCY()]);
+        }
+
+        if(camera.isMouseInViewport() && gEngine.Input.isKeyClicked(gEngine.Input.keys.A)) 
+        {
+            this.mPath.findPathLines(this.getXform().getPosition(), [camera.mouseWCX(), camera.mouseWCY()]);
+        }
+
+        if(gEngine.Input.isKeyClicked(gEngine.Input.keys.Q))
+        {
+            this.mPath.findPath(this.getXform().getPosition(), [77, 50]);
+
+        }
+
+        if(gEngine.Input.isKeyClicked(gEngine.Input.keys.W))
+        {
+            this.followWayPoints = !this.followWayPoints;
+        }
+        if (gEngine.Input.isKeyClicked(gEngine.Input.keys.M))
+        {
+            this.mPath.setSpeed(this.mPath.speed - 5);
+        }
+        if (gEngine.Input.isKeyClicked(gEngine.Input.keys.N))
+        {
+            this.mPath.setSpeed(this.mPath.speed + 5);
+        }
+
+    //    if (this.followWayPoints) 
+    //    {
+    //        var destination = this.wayPoints[this.currPathIndex];
+    //        this.mPath.findPath(this.getXform().getPosition(), [destination[0], destination[1]]);
+    //        
+    //        if(this.path === null || this.path.length === 0) {
+    //            var destination = this.wayPoints[this.currPathIndex + 1];
+    //            this.mPath.findPath(this.getXform().getPosition(), [destination[0], destination[1]]);
+    //        }
+    //    }
+
+        if (this.followWayPoints && this.wayPoints !== null) 
+        {
+            if (this.mPath.path === null || this.mPath.path.length === 1)  
+            {
+                this.mPath.findMultiPath(this.getXform().getPosition(), this.wayPoints);
+    //            this.mPath.findPath(this.getXform().getPosition(), this.wayPoints[this.currPathIndex]);
+    //            this.currPathIndex = this.currPathIndex + 1; 
+    //            if (this.currPathIndex >= this.wayPoints.length) {
+    //                this.currPathIndex = 0; 
+    //            }
+            }
         }
     }
     
@@ -87,16 +91,34 @@ Player.prototype.setWayPoints = function(input)
 {
     this.wayPoints = input; 
     this.followWayPoints = true; 
-    console.log(input)
+    console.log(input);
     console.log(this.wayPoints);
+};
+
+Player.prototype.onPath = function() 
+{
+    if (this.mPath !== null && this.mPath >= 0) {
+        return this.mPath; 
+    }
+};
+
+Player.prototype.setActive = function() 
+{
+    this.isActive = true; 
+};
+
+Player.prototype.deActivate = function() 
+{
+    this.isActive = false; 
 };
 
 Player.prototype.draw = function(mCamera) 
 {
-  this.square.draw(mCamera);
-  
-  if (this.showPath)
-  {
-    this.mPath.draw(mCamera);
-  }
+    if (this.showPath)
+    {
+      this.mPath.draw(mCamera);
+    }
+
+    this.square.draw(mCamera);
+ 
 };

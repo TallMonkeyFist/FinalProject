@@ -17,10 +17,12 @@ function MyGame() {
     this.kSpriteSheet = "assets/SpriteSheet.png";
     this.kSceneFile = "assets/scene.json";
     this.mGrid = null;
-    this.player = null;
-    this.enemies = []; 
+    this.players = [];
+    this.enemies = [];
+    this.follower = null; 
     this.walls = null;
     this.sceneParser = null;
+    this.currPlayer = 0; 
 }
 gEngine.Core.inheritPrototype(MyGame, Scene);
 
@@ -53,16 +55,42 @@ MyGame.prototype.initialize = function () {
     this.mGrid.setPosition(center[0], center[1]);
     this.mGrid.setWidth(this.mCamera.getWCWidth() + 100);
     this.mGrid.setHeight(this.mCamera.getWCHeight() + 50);
-    this.player = new Player(this.mGrid);
-    this.player.getXform().setPosition(250, 1125/14 + 50);
-    this.player.getXform().setSize(10, 10);
+    
+    //Creates player 1 
+    var player1 = new Player(this.mGrid);
+    player1.getXform().setPosition(250, 1125/14 + 50);
+    player1.getXform().setSize(10, 10);
+    player1.setActive(); 
+    this.players.push(player1);
   
+    //Creates player 2 
+    var player2 = new Player(this.mGrid);
+    player2.getXform().setPosition(220, 1125/14 + 50);
+    player2.getXform().setSize(20, 20);
+    player2.square.setColor([0, 0, 1, 1]);
+    this.players.push(player2);
+  
+    //Creates player 3 
+    var player2 = new Player(this.mGrid);
+    player2.getXform().setPosition(220, 1125/14 + 30);
+    player2.getXform().setSize(15, 15);
+    player2.square.setColor([0, 1, 0, 1]);
+    this.players.push(player2);
+  
+ 
     this.walls = new GameObjectSet();
     this._makeWalls();
     
     this.enemies = []; 
     var enemy = new Enemy(this.mGrid);
     enemy.getXform().setPosition(30, 1125/14 + 50);
+    enemy.getXform().setSize(5, 5);
+    var wayPoints = [[20, 25], [20, 150], [200, 150], [200, 25]];
+    enemy.setWayPoints(wayPoints); 
+    this.enemies.push(enemy);
+        
+    var enemy = new Enemy(this.mGrid);
+    enemy.getXform().setPosition(120, 1125/14 + 70);
     enemy.getXform().setSize(5, 5);
     var wayPoints = [[20, 25], [20, 150], [200, 150], [200, 25]];
     enemy.setWayPoints(wayPoints); 
@@ -78,11 +106,15 @@ MyGame.prototype.draw = function () {
     this.mCamera.setupViewProjection();
     this.walls.draw(this.mCamera);
     this.mGrid.draw(this.mCamera);
-    this.player.draw(this.mCamera);
     
     var i; 
-    for (i = 0; i < this.enemies.length; i++) {
-        this.enemies[i].draw(this.mCamera);
+    for (i = 0; i < this.players.length; i++) {
+        this.players[i].draw(this.mCamera);
+    }
+    
+    var j; 
+    for (j = 0; j < this.enemies.length; j++) {
+        this.enemies[j].draw(this.mCamera);
     }
 
 };
@@ -94,7 +126,16 @@ MyGame.prototype.update = function ()
     // Shows Player Paths 
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.H)) 
     {
-        this.player.showPath = !this.player.showPath;
+        this.players[0].showPath = !this.players[0].showPath;
+    }
+    
+    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Space)) {
+        this.players[this.currPlayer].deActivate(); 
+        this.currPlayer = this.currPlayer + 1; 
+        if (this.currPlayer >= this.players.length) {
+            this.currPlayer = 0; 
+        }
+        this.players[this.currPlayer].setActive(); 
     }
     
     // Shows Enemy Paths
@@ -104,10 +145,15 @@ MyGame.prototype.update = function ()
             this.enemies[i].showPath = !this.enemies[i].showPath;
         }
     }
-    this.player.update(this.mGrid, this.mCamera);  
-    this.mGrid.update(this.mCamera); 
     
     var i; 
+    for (i = 0; i < this.players.length; i++) {
+        this.players[i].update(this.mGrid, this.mCamera); 
+    }
+    this.mGrid.update(this.mCamera); 
+    
+
+    
     for (i = 0; i < this.enemies.length; i++) {
         this.enemies[i].update(this.mGrid, this.mCamera);
     }
