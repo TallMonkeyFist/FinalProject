@@ -76,12 +76,19 @@
             <!-- this message will show only if WebGL clearing failed -->
         </canvas>
                         <br>
+        <div id='Playerid'></div>                
         <div id='UpdateFrame'></div>
+        
         <hr>
         <script>
         var gUpdateFrame = function(message) {
             var elm = document.getElementById("UpdateFrame");
             elm.innerHTML = message; 
+        };
+        
+        var gUpdatePlayer = function(playerInfo) {
+        var elm = document.getElementById("Playerid");
+        elm.innerHTML = playerInfo; 
         };
         </script>
     </body>

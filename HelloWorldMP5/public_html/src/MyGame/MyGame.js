@@ -106,17 +106,17 @@ MyGame.prototype.draw = function () {
     this.mCamera.setupViewProjection();
     this.walls.draw(this.mCamera);
     this.mGrid.draw(this.mCamera);
+
+    var j; 
+    for (j = 0; j < this.enemies.length; j++) {
+        this.enemies[j].draw(this.mCamera);
+    }
     
     var i; 
     for (i = 0; i < this.players.length; i++) {
         this.players[i].draw(this.mCamera);
     }
     
-    var j; 
-    for (j = 0; j < this.enemies.length; j++) {
-        this.enemies[j].draw(this.mCamera);
-    }
-
 };
 
 // The Update function, updates the application state. Make sure to _NOT_ draw
@@ -126,7 +126,10 @@ MyGame.prototype.update = function ()
     // Shows Player Paths 
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.H)) 
     {
-        this.players[0].showPath = !this.players[0].showPath;
+        var i; 
+        for (i = 0; i < this.players.length; i++) {
+            this.players[i].showPath = !this.players[i].showPath;
+        }
     }
     
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Space)) {
@@ -137,6 +140,8 @@ MyGame.prototype.update = function ()
         }
         this.players[this.currPlayer].setActive(); 
     }
+    
+    gUpdatePlayer("Playing as: Player " + (this.currPlayer + 1).toString());
     
     // Shows Enemy Paths
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.J)) 
