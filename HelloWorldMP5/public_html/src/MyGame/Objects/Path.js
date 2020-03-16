@@ -144,7 +144,7 @@ Path.prototype._makePathLines = function() {
         this.pathLines.push(tempLine); 
         for(i = 0; i < this.path.length - 1; i++) {
             var startNode = this.mGrid.gridToWC([this.path[i].x, this.path[i].y]);
-            var endNode = this.mGrid.gridToWC([this.path[i + 1].x, this.path[i].y + 1]);
+            var endNode = this.mGrid.gridToWC([this.path[i + 1].x, this.path[i + 1].y]);
             var tempLine = new LineRenderable(
                     startNode[0], 
                     startNode[1], 
