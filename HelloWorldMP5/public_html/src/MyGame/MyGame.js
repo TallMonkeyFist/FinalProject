@@ -51,8 +51,8 @@ MyGame.prototype.initialize = function () {
     this.mGrid = new Grid(100, 100, this.mCamera);
     var center = this.mCamera.getWCCenter();
     this.mGrid.setPosition(center[0], center[1]);
-    this.mGrid.setWidth(this.mCamera.getWCWidth());
-    this.mGrid.setHeight(this.mCamera.getWCHeight());
+    this.mGrid.setWidth(this.mCamera.getWCWidth() + 100);
+    this.mGrid.setHeight(this.mCamera.getWCHeight() + 50);
     this.player = new Player(this.mGrid);
     this.player.getXform().setPosition(250, 1125/14 + 50);
     this.player.getXform().setSize(10, 10);
@@ -111,6 +111,27 @@ MyGame.prototype.update = function ()
     for (i = 0; i < this.enemies.length; i++) {
         this.enemies[i].update(this.mGrid, this.mCamera);
     }
+
+    if(gEngine.Input.isKeyPressed(gEngine.Input.keys.Left))
+    {
+        this.mCamera.setWCCenter(this.mCamera.getWCCenter()[0] - 10, this.mCamera.getWCCenter()[1]);
+    }
+    
+    if(gEngine.Input.isKeyPressed(gEngine.Input.keys.Right))
+    {
+        this.mCamera.setWCCenter(this.mCamera.getWCCenter()[0] + 10, this.mCamera.getWCCenter()[1]);
+    }
+    
+    if(gEngine.Input.isKeyPressed(gEngine.Input.keys.Down))
+    {
+        this.mCamera.setWCCenter(this.mCamera.getWCCenter()[0], this.mCamera.getWCCenter()[1] - 10);
+    }
+    
+    if(gEngine.Input.isKeyPressed(gEngine.Input.keys.Up))
+    {
+        this.mCamera.setWCCenter(this.mCamera.getWCCenter()[0], this.mCamera.getWCCenter()[1] + 10);
+    }
+    this.mCamera.update();
 };
 
 MyGame.prototype._makeWalls = function()

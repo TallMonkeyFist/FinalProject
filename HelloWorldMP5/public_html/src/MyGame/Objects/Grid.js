@@ -1,35 +1,23 @@
 "use strict"
 
-function Grid(numXCells, numYCells, mCamera)
+function Grid(numXCells, numYCells)
 {
     this.mXform = new Transform();
-    this.mCamera = mCamera; 
     this.xCell = numXCells;
     this.yCell = numYCells;
-    this.squares = new Array(this.xCell);
+    this.squares = null;
     this.object = [];
-    this.minX = this.mXform.getPosition()[0] - this.mXform.getWidth()/2;
-    this.maxX = this.mXform.getPosition()[0] + this.mXform.getWidth()/2;
-    this.minY = this.mXform.getPosition()[1] - this.mXform.getHeight()/2;
-    this.maxY = this.mXform.getPosition()[1] + this.mXform.getHeight()/2;
+    this._calibrate();
     this.gridLines = []; 
-    
+    this.mGraph = null;
     this._initGrid();
-    this.mGraph = new Graph(this.squares, { diagonal: true });
     this.showGrid = false; 
 }
-
-Grid.prototype._calibrate = function()
-{
-    this.minX = this.mXform.getPosition()[0] - this.mXform.getWidth()/2;
-    this.maxX = this.mXform.getPosition()[0] + this.mXform.getWidth()/2;
-    this.minY = this.mXform.getPosition()[1] - this.mXform.getHeight()/2;
-    this.maxY = this.mXform.getPosition()[1] + this.mXform.getHeight()/2;
-};
 
 Grid.prototype.setPosition = function(x, y)
 {
     this.mXform.setPosition(x, y);
+    this._initGrid();
     this._calibrate();
 };
 
@@ -53,18 +41,21 @@ Grid.prototype.setSize = function(x, y)
 {
     this.mXform.setWidth(x);
     this.mXform.setHeight(y);
+    this._initGrid();
     this._calibrate();
 };
 
 Grid.prototype.setWidth = function(x)
 {
     this.mXform.setWidth(x);
+    this._initGrid();
     this._calibrate();
 };
 
 Grid.prototype.setHeight = function(y)
 {
     this.mXform.setHeight(y);
+    this._initGrid();
     this._calibrate();
 };
 
@@ -121,6 +112,14 @@ Grid.prototype._isValid = function (object)
         return false;
     }
     return true;
+};
+
+Grid.prototype._calibrate = function()
+{
+    this.minX = this.mXform.getPosition()[0] - this.mXform.getWidth()/2;
+    this.maxX = this.mXform.getPosition()[0] + this.mXform.getWidth()/2;
+    this.minY = this.mXform.getPosition()[1] - this.mXform.getHeight()/2;
+    this.maxY = this.mXform.getPosition()[1] + this.mXform.getHeight()/2;
 };
 
 Grid.prototype._addToGrid = function (object)
@@ -182,6 +181,7 @@ Grid.prototype._wcToGrid = function(position)
     {
         console.log("Outside of grid");
     }
+    console.log(x, y);
     return [Math.floor(x),Math.floor(y)];
 };
 
@@ -194,6 +194,9 @@ Grid.prototype.gridToWC = function(position)
 
 Grid.prototype._initGrid = function()
 {
+    this.squares = null;
+    this.squares = new Array(this.xCell);
+    this.gridLines = [];
     var i;
     for (i = 0; i < this.xCell; i++)
     {
@@ -209,20 +212,22 @@ Grid.prototype._initGrid = function()
         }
     }
     
-    var xStart = this.mCamera.getWCCenter()[0] - this.mCamera.getWCWidth() / 2; 
-    var xEnd = this.mCamera.getWCCenter()[0] + this.mCamera.getWCWidth() / 2; 
+    this.mGraph = new Graph(this.squares, { diagonal: true });
+    
+    var xStart = this.mXform.getPosition()[0] - this.mXform.getWidth() / 2; 
+    var xEnd = this.mXform.getPosition()[0] + this.mXform.getWidth() / 2; 
     var deltaX = (xEnd - xStart) / this.xCell; 
     
-    var yStart = this.mCamera.getWCCenter()[1] - this.mCamera.getWCHeight() / 2; 
-    var yEnd = this.mCamera.getWCCenter()[1] + this.mCamera.getWCHeight() / 2; 
+    var yStart = this.mXform.getPosition()[1] - this.mXform.getHeight() / 2; 
+    var yEnd = this.mXform.getPosition()[1] + this.mXform.getHeight() / 2; 
     var deltaY = (yEnd - yStart) / this.yCell; 
+    
     var tempLine;
-    var i;
     for (i = xStart; i <= xEnd; i = i + deltaX) {
         tempLine = new LineRenderable(i, yStart, i, yEnd); 
         this.gridLines.push(tempLine);
     }
-    for (i = yStart; i <= yEnd; i = i + deltaY) {
+    for (i = yStart; i <= yEnd + 1; i = i + deltaY) {
         tempLine = new LineRenderable(xStart, i, xEnd, i); 
         this.gridLines.push(tempLine);        
     }
