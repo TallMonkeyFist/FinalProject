@@ -21,22 +21,6 @@ Grid.prototype.setPosition = function(x, y)
     this._calibrate();
 };
 
-Grid.prototype.search = function(start, end)
-{
-    var startGrid = this._wcToGrid(start);
-    var s = this.mGraph.grid[startGrid[0]][startGrid[1]];
-    var endGrid = this._wcToGrid(end);
-    var e = this.mGraph.grid[endGrid[0]][endGrid[1]];
-    if (this.squares[endGrid[0]][endGrid[1]] === 0)
-    {
-        gUpdateFrame("Can't move into a wall");
-        return [];
-    }
-    gUpdateFrame("Moving to cell: " + endGrid[0] + ", " + endGrid[1]);
-    var result = astar.search(this.mGraph   , s, e, {heuristic: astar.heuristics.diagonal });
-    return result;
-};
-
 Grid.prototype.setSize = function(x, y)
 {
     this.mXform.setWidth(x);
@@ -59,7 +43,7 @@ Grid.prototype.setHeight = function(y)
     this._calibrate();
 };
 
-Grid.prototype.getCellSize = function()
+Grid.prototype.getCellCount = function()
 {
     return [this.xCell, this.yCell];
 };
@@ -80,18 +64,30 @@ Grid.prototype.addStatic = function(object)
     this.object.push(object);
 };
 
-Grid.prototype.moveObject = function(xform, wcPos)
-{
-    xform.setPosition(wcPos[0], wcPos[1]);
-};
-
 Grid.prototype.removeStatic = function(object)
 {
     if (!this._isValid(object))
     {
+        console.log("Not valid");
         return;
     }
     this._removeFromGrid(object);
+};
+
+Grid.prototype.search = function(start, end)
+{
+    var startGrid = this._wcToGrid(start);
+    var s = this.mGraph.grid[startGrid[0]][startGrid[1]];
+    var endGrid = this._wcToGrid(end);
+    var e = this.mGraph.grid[endGrid[0]][endGrid[1]];
+    if (this.squares[endGrid[0]][endGrid[1]] === 0)
+    {
+        gUpdateFrame("Can't move into a wall");
+        return [];
+    }
+    gUpdateFrame("Moving to cell: " + endGrid[0] + ", " + endGrid[1]);
+    var result = astar.search(this.mGraph   , s, e, {heuristic: astar.heuristics.diagonal });
+    return result;
 };
 
 Grid.prototype._isValid = function (object)
@@ -99,6 +95,7 @@ Grid.prototype._isValid = function (object)
     //If the object has no transform, don't add the object to the grid
     if((typeof object.getXform) !== "function")
     {
+        console.log("No xform");
         return false;
     }
     var xform = object.getXform();
@@ -150,17 +147,24 @@ Grid.prototype._removeFromGrid = function (object)
 {
     var xform = object.getXform();
     var pos = xform.getPosition();
+    var minX, minY, maxX, maxY;
+    minX = pos[0] - xform.getWidth()/2;
+    maxX = pos[0] + xform.getWidth()/2;
+    minY = pos[1] - xform.getHeight()/2;
+    maxY = pos[1] + xform.getHeight()/2;
+    var start = this._wcToGrid([minX, minY]);
+    var end = this._wcToGrid([maxX, maxY]);
     var i;
-    for (i = Math.floor(pos[0] - xform.getWidth()/2); 
-            i < pos[0] + xform.getWidth()/2; i++)
+    for (i = start[0]; i <= end[0]; i++)
     {
         var j;
-        for (j = pos[1] - xform.getHeight()/2;
-            j < pos[1] + xform.getHeight()/2; j++)
+        for (j = start[1]; j <= end[1];  j++)
         {
             this.squares[i][j] = 1;
         }
     }
+    this.mGraph = null;
+    this.mGraph = new Graph(this.squares, { diagonal: true });
 };
 
 Grid.prototype.setStatic = function(x, y)

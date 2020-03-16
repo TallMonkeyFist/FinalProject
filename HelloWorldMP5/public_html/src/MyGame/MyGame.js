@@ -177,6 +177,14 @@ MyGame.prototype.update = function ()
     {
         this.mCamera.setWCCenter(this.mCamera.getWCCenter()[0], this.mCamera.getWCCenter()[1] + 10);
     }
+    
+    if(gEngine.Input.isKeyClicked(gEngine.Input.keys.P))
+    {
+        var temp = this.walls.mSet.splice(this.walls.mSet.length - 1, 1)[0];
+        console.log(temp);
+        this.mGrid.removeStatic(temp);
+    }
+    
     this.mCamera.update();
 };
 
