@@ -80,22 +80,22 @@ MyGame.prototype.update = function ()
     
     if(gEngine.Input.isKeyPressed(gEngine.Input.keys.Left))
     {
-        this.mCamera.setWCCenter(this.mCamera.getWCCenter()[0] - 1, this.mCamera.getWCCenter()[1]);
+        this.mCamera.setWCCenter(this.mCamera.getWCCenter()[0] - 10, this.mCamera.getWCCenter()[1]);
     }
     
     if(gEngine.Input.isKeyPressed(gEngine.Input.keys.Right))
     {
-        this.mCamera.setWCCenter(this.mCamera.getWCCenter()[0] + 1, this.mCamera.getWCCenter()[1]);
+        this.mCamera.setWCCenter(this.mCamera.getWCCenter()[0] + 10, this.mCamera.getWCCenter()[1]);
     }
     
     if(gEngine.Input.isKeyPressed(gEngine.Input.keys.Down))
     {
-        this.mCamera.setWCCenter(this.mCamera.getWCCenter()[0], this.mCamera.getWCCenter()[1] - 1);
+        this.mCamera.setWCCenter(this.mCamera.getWCCenter()[0], this.mCamera.getWCCenter()[1] - 10);
     }
     
     if(gEngine.Input.isKeyPressed(gEngine.Input.keys.Up))
     {
-        this.mCamera.setWCCenter(this.mCamera.getWCCenter()[0], this.mCamera.getWCCenter()[1] + 1);
+        this.mCamera.setWCCenter(this.mCamera.getWCCenter()[0], this.mCamera.getWCCenter()[1] + 10);
     }
     this.mCamera.update();
     

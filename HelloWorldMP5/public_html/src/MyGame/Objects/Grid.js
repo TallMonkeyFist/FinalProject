@@ -227,7 +227,7 @@ Grid.prototype._initGrid = function()
         tempLine = new LineRenderable(i, yStart, i, yEnd); 
         this.gridLines.push(tempLine);
     }
-    for (i = yStart; i <= yEnd; i = i + deltaY) {
+    for (i = yStart; i <= yEnd + 1; i = i + deltaY) {
         tempLine = new LineRenderable(xStart, i, xEnd, i); 
         this.gridLines.push(tempLine);        
     }
