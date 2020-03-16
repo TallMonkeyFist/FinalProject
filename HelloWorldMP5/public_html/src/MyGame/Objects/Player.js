@@ -13,7 +13,7 @@ function Player(mGrid)
     this.currPathIndex = 0; 
     this.followWayPoints = true;
     this.mPath.setGrid(mGrid);
-    this.mPath.setSpeed(150);
+    this.mPath.setSpeed(350);
     this.mSpeed = 5;
 }
 
@@ -53,6 +53,19 @@ Player.prototype.update = function(mGrid, camera)
 //            this.mPath.findPath(this.getXform().getPosition(), [destination[0], destination[1]]);
 //        }
 //    }
+
+    if (this.followWayPoints) 
+    {
+        if (this.mPath.path === null || this.mPath.path.length === 1)  
+        {
+            this.mPath.findMultiPath(this.getXform().getPosition(), this.wayPoints);
+//            this.mPath.findPath(this.getXform().getPosition(), this.wayPoints[this.currPathIndex]);
+//            this.currPathIndex = this.currPathIndex + 1; 
+//            if (this.currPathIndex >= this.wayPoints.length) {
+//                this.currPathIndex = 0; 
+//            }
+        }
+    }
     
     this.mPath.update(camera, this.mSpeed);
 };
