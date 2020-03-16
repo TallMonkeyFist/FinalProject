@@ -45,7 +45,7 @@ Grid.prototype.search = function(start, end)
         return [];
     }
     gUpdateFrame("Moving to cell: " + endGrid[0] + ", " + endGrid[1]);
-    var result = astar.search(this.mGraph   , s, e);
+    var result = astar.search(this.mGraph   , s, e, {heuristic: astar.heuristics.diagonal });
     return result;
 };
 
