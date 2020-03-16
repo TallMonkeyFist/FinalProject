@@ -77,6 +77,7 @@ MyGame.prototype.update = function ()
 {
     this.player.update(this.mGrid, this.mCamera);  
     this.mGrid.update(this.mCamera); 
+    
 };
 
 MyGame.prototype._makeWalls = function()

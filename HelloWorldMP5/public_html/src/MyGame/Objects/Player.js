@@ -13,8 +13,7 @@ function Player(mGrid)
     this.currPathIndex = 0; 
     this.followWayPoints = true;
     this.mPath.setGrid(mGrid);
-    this.mPath.setSpeed(350);
-    this.mSpeed = 5;
+    this.mPath.setSpeed(150);
 }
 
 gEngine.Core.inheritPrototype(Player, GameObject);
@@ -42,6 +41,14 @@ Player.prototype.update = function(mGrid, camera)
     {
         this.followWayPoints = !this.followWayPoints;
     }
+    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.M))
+    {
+        this.mPath.setSpeed(this.mPath.speed - 5);
+    }
+    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.N))
+    {
+        this.mPath.setSpeed(this.mPath.speed + 5);
+    }
  
 //    if (this.followWayPoints) 
 //    {
@@ -68,6 +75,11 @@ Player.prototype.update = function(mGrid, camera)
     }
     
     this.mPath.update(camera, this.mSpeed);
+};
+
+Player.prototype.setSpeed = function(speed)
+{
+    this.mPath.setSpeed(speed);
 };
 
 Player.prototype.draw = function(mCamera) 
