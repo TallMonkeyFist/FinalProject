@@ -9,13 +9,17 @@ function Player(mGrid)
     this.pathLines = []; 
     GameObject.call(this, this.square);
     this.mPath = new Path(mGrid, this.getXform());
+    this.wayPoints = [[50, 50], [150, 50], [20, 25]];
+    this.currPathIndex = 0; 
+    this.followWayPoints = true;
 
 }
 
 gEngine.Core.inheritPrototype(Player, GameObject);
 
 Player.prototype.update = function(mGrid, camera)
-{
+{    
+    // Inputs
     if(camera.isMouseInViewport() && gEngine.Input.isButtonClicked(gEngine.Input.mouseButton.Left))
     {
         this.mPath.findPath(this.getXform().getPosition(), [camera.mouseWCX(), camera.mouseWCY()]);
@@ -31,6 +35,22 @@ Player.prototype.update = function(mGrid, camera)
         this.mPath.findPath(this.getXform().getPosition(), [77, 50]);
  
     }
+    
+    if(gEngine.Input.isKeyClicked(gEngine.Input.keys.W))
+    {
+        this.followWayPoints = !this.followWayPoints;
+    }
+ 
+//    if (this.followWayPoints) 
+//    {
+//        var destination = this.wayPoints[this.currPathIndex];
+//        this.mPath.findPath(this.getXform().getPosition(), [destination[0], destination[1]]);
+//        
+//        if(this.path === null || this.path.length === 0) {
+//            var destination = this.wayPoints[this.currPathIndex + 1];
+//            this.mPath.findPath(this.getXform().getPosition(), [destination[0], destination[1]]);
+//        }
+//    }
     
     this.mPath.update(camera);
 };

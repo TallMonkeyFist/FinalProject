@@ -82,6 +82,7 @@ MyGame.prototype.update = function ()
 MyGame.prototype._makeWalls = function()
 {   
     this.sceneParser.parseWalls("JSON", this.walls, this.mGrid);
+    
 //    var wall = new Renderable();
 //    wall.setColor([0, 1, .75, 1]);
 //    wall.getXform().setPosition(100, (1125/14) - 10);
