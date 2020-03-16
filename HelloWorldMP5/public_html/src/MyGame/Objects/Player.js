@@ -79,7 +79,7 @@ Player.prototype.update = function(mGrid, camera)
         }
     }
     
-    this.mPath.update(camera, this.mSpeed);
+    this.mPath.update();
 };
 
 Player.prototype.setSpeed = function(speed)

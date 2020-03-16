@@ -11,33 +11,29 @@
 
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
-function MyGame() {
+function Example2() {
     // The camera to view the scene
     this.mCamera = null;
     this.kSceneFile = "assets/scene.json";
     this.mGrid = null;
-    this.players = [];
-    this.enemies = [];
-    this.follower = null; 
+    this.players = []; 
     this.walls = null;
     this.sceneParser = null;
     this.currPlayer = 0; 
 }
 gEngine.Core.inheritPrototype(MyGame, Scene);
 
-MyGame.prototype.loadScene = function () 
-{    
+Example2.prototype.loadScene = function () {
+    
     // Loads in Json file
     gEngine.TextFileLoader.loadTextFile(this.kSceneFile, gEngine.TextFileLoader.eTextFileType.eTextFile);
 };
 
-MyGame.prototype.unloadScene = function () 
-{
+Example2.prototype.unloadScene = function () {
     gEngine.TextFileLoader.unloadTextFile(this.kSceneFile);
 };
 
-MyGame.prototype.initialize = function () 
-{
+Example2.prototype.initialize = function () {
     this.sceneParser = new SceneFileParser(this.kSceneFile, "JSON");
     // Step A: set up the cameras
     this.mCamera = new Camera(
@@ -49,67 +45,84 @@ MyGame.prototype.initialize = function ()
     //1400/750 = 300/x
     this.mCamera.setBackgroundColor([0.8, 0.8, 0.8, 1]);
             // sets the background to gray
-    this.mGrid = new Grid(100, 100);
+    this.mGrid = new Grid(100, 100, this.mCamera);
     var center = this.mCamera.getWCCenter();
     this.mGrid.setPosition(center[0], center[1]);
     this.mGrid.setWidth(this.mCamera.getWCWidth() + 100);
     this.mGrid.setHeight(this.mCamera.getWCHeight() + 50);
+    
+    //Creates player 1 
+    var player1 = new Player(this.mGrid);
+    player1.getXform().setPosition(250, 1125/14 + 50);
+    player1.getXform().setSize(10, 10);
+    player1.setActive(); 
+    this.players.push(player1);
+  
+    //Creates player 2 
+    var player2 = new Player(this.mGrid);
+    player2.getXform().setPosition(220, 1125/14 + 50);
+    player2.getXform().setSize(20, 20);
+    player2.square.setColor([0, 0, 1, 1]);
+    this.players.push(player2);
+  
+    //Creates player 3 
+    var player2 = new Player(this.mGrid);
+    player2.getXform().setPosition(220, 1125/14 + 30);
+    player2.getXform().setSize(15, 15);
+    player2.square.setColor([0, 1, 0, 1]);
+    this.players.push(player2);
+  
  
     this.walls = new GameObjectSet();
     this._makeWalls();
-    
-    this.enemies = []; 
-    var enemy = new Enemy(this.mGrid);
-    enemy.getXform().setPosition(30, 1125/14 + 50);
-    enemy.getXform().setSize(5, 5);
-    var wayPoints = [[20, 25], [20, 150], [200, 150], [200, 25]];
-    enemy.setWayPoints(wayPoints); 
-    this.enemies.push(enemy);
-        
-    var enemy2 = new Enemy(this.mGrid);
-    enemy2.getXform().setPosition(120, 1125/14 + 70);
-    enemy2.getXform().setSize(5, 5);
-    var wayPoints2 = [[20, 25], [20, 150], [200, 150], [200, 25]];
-    enemy2.setWayPoints(wayPoints2); 
-    enemy2.setSpeed(300);
-    
-    this.enemies.push(enemy2);
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more
 // importantly, make sure to _NOT_ change any state.
-MyGame.prototype.draw = function () {
+Example2.prototype.draw = function () {
     gEngine.Core.clearCanvas([0.9, 0.9, 0.9, 1.0]); // clear to light gray
 
     this.mCamera.setupViewProjection();
     this.walls.draw(this.mCamera);
     this.mGrid.draw(this.mCamera);
-
-    var j; 
-    for (j = 0; j < this.enemies.length; j++) {
-        this.enemies[j].draw(this.mCamera);
+    
+    var i; 
+    for (i = 0; i < this.players.length; i++) {
+        this.players[i].draw(this.mCamera);
     }
     
 };
 
 // The Update function, updates the application state. Make sure to _NOT_ draw
 // anything from this function!
-MyGame.prototype.update = function () 
+Example2.prototype.update = function () 
 {
-    // Shows Enemy Paths
-    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.J)) 
+    // Shows Player Paths 
+    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.H)) 
     {
-        for (i = 0; i < this.enemies.length; i++) {
-            this.enemies[i].showPath = !this.enemies[i].showPath;
+        var i; 
+        for (i = 0; i < this.players.length; i++) {
+            this.players[i].showPath = !this.players[i].showPath;
         }
+    }
+    
+    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Space)) {
+        this.players[this.currPlayer].deActivate(); 
+        this.currPlayer = this.currPlayer + 1; 
+        if (this.currPlayer >= this.players.length) {
+            this.currPlayer = 0; 
+        }
+        this.players[this.currPlayer].setActive(); 
+    }
+    
+    gUpdatePlayer("Playing as: Player " + (this.currPlayer + 1).toString());
+    
+    var i; 
+    for (i = 0; i < this.players.length; i++) {
+        this.players[i].update(this.mGrid, this.mCamera); 
     }
     this.mGrid.update(this.mCamera); 
     
-    var i;
-    for (i = 0; i < this.enemies.length; i++) {
-        this.enemies[i].update(this.mGrid, this.mCamera);
-    }
-
     if(gEngine.Input.isKeyPressed(gEngine.Input.keys.Left))
     {
         this.mCamera.setWCCenter(this.mCamera.getWCCenter()[0] - 10, this.mCamera.getWCCenter()[1]);
@@ -140,7 +153,7 @@ MyGame.prototype.update = function ()
     this.mCamera.update();
 };
 
-MyGame.prototype._makeWalls = function()
+Example2.prototype._makeWalls = function()
 {   
     this.sceneParser.parseWalls("JSON", this.walls, this.mGrid);
         
@@ -158,7 +171,7 @@ MyGame.prototype._makeWalls = function()
     wall3.setColor([0, 1, .75, 1]);
     wall3.getXform().setPosition(250, 35);
     wall3.getXform().setSize(10, 100);
-    
+//    
     this.walls.addToSet(wall1);
     this.walls.addToSet(wall2);
     this.walls.addToSet(wall3);
