@@ -45,8 +45,7 @@ Grid.prototype.search = function(start, end)
         return [];
     }
     gUpdateFrame("Moving to cell: " + endGrid[0] + ", " + endGrid[1]);
-    var result = astar.search(this.mGraph   , s, e);
-    console.log(e);
+    var result = astar.search(this.mGraph   , s, e, {heuristic: astar.heuristics.diagonal });
     return result;
 };
 
@@ -69,6 +68,16 @@ Grid.prototype.setHeight = function(y)
     this._calibrate();
 };
 
+Grid.prototype.getCellSize = function()
+{
+    return [this.xCell, this.yCell];
+};
+
+Grid.prototype.getSize = function()
+{
+    return [this.mXform.getWidth(), this.mXform.getHeight()];
+};
+
 Grid.prototype.addStatic = function(object)
 {
     if (!this._isValid(object))
@@ -80,9 +89,8 @@ Grid.prototype.addStatic = function(object)
     this.object.push(object);
 };
 
-Grid.prototype.moveObject = function(xform, gridPosition)
+Grid.prototype.moveObject = function(xform, wcPos)
 {
-    var wcPos = this.gridToWC(gridPosition);
     xform.setPosition(wcPos[0], wcPos[1]);
 };
 

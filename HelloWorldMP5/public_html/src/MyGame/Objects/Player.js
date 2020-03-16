@@ -1,5 +1,5 @@
 
-"use strict"
+"use strict";
 
 function Player(mGrid)
 {
@@ -12,7 +12,9 @@ function Player(mGrid)
     this.wayPoints = [[50, 50], [150, 50], [20, 25]];
     this.currPathIndex = 0; 
     this.followWayPoints = true;
-
+    this.mPath.setGrid(mGrid);
+    this.mPath.setSpeed(150);
+    this.mSpeed = 5;
 }
 
 gEngine.Core.inheritPrototype(Player, GameObject);
@@ -35,7 +37,7 @@ Player.prototype.update = function(mGrid, camera)
         this.mPath.findPath(this.getXform().getPosition(), [77, 50]);
  
     }
-    
+
     if(gEngine.Input.isKeyClicked(gEngine.Input.keys.W))
     {
         this.followWayPoints = !this.followWayPoints;
@@ -52,7 +54,7 @@ Player.prototype.update = function(mGrid, camera)
 //        }
 //    }
     
-    this.mPath.update(camera);
+    this.mPath.update(camera, this.mSpeed);
 };
 
 Player.prototype.draw = function(mCamera) 
