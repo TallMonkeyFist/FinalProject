@@ -52,6 +52,18 @@ Path.prototype.findPath = function(start, end)
     this._makePathLines(this.mGrid);
 };
 
+Path.prototype.findMultiPath = function(start, waypoints)
+{   
+    var result = this.mGrid.search(start, waypoints[0]);
+    this.path = result;
+    var i; 
+    for (i = 0; i < waypoints.length - 1; i++) {
+        var result = this.mGrid.search(waypoints[i], waypoints[i + 1]);
+        this.path = this.path.concat(result);
+    }
+    this._makePathLines(this.mGrid);
+};
+
 Path.prototype.findPathLines = function(start, end)
 {
     var result = this.mGrid.search(start, end);
