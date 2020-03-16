@@ -58,9 +58,9 @@ MyGame.prototype.draw = function () {
     gEngine.Core.clearCanvas([0.9, 0.9, 0.9, 1.0]); // clear to light gray
 
     this.mCamera.setupViewProjection();
-    this.player.draw(this.mCamera);
     this.walls.draw(this.mCamera);
     this.mGrid.draw(this.mCamera);
+    this.player.draw(this.mCamera);
 
 };
 
@@ -79,26 +79,32 @@ MyGame.prototype._makeWalls = function()
     wall.setColor([0, 1, .75, 1]);
     wall.getXform().setPosition(100, (1125/14) - 10);
     wall.getXform().setSize(5, 80);
+    
     var wall2 = new Renderable();
     wall2.setColor([0, 1, .75, 1]);
     wall2.getXform().setPosition(50, 1125/14);
     wall2.getXform().setSize(5, 100);
+    
     var wall3 = new Renderable();
     wall3.setColor([0, 1, .75, 1]);
     wall3.getXform().setPosition(150, 1125/14);
     wall3.getXform().setSize(5, 100);
+    
     var wall4 = new Renderable();
     wall4.setColor([0, 1, .75, 1]);
     wall4.getXform().setPosition(75, 32.5);
     wall4.getXform().setSize(50, 5);
+    
     var wall5 = new Renderable();
     wall5.setColor([0, 1, .75, 1]);
     wall5.getXform().setPosition(100, 130);
     wall5.getXform().setSize(100, 5);
+    
     var wall6 = new Renderable();
     wall6.setColor([0, 1, .75, 1]);
     wall6.getXform().setPosition(250, 35);
     wall6.getXform().setSize(10, 100);
+    
     this.walls.addToSet(wall);
     this.walls.addToSet(wall2);
     this.walls.addToSet(wall3);
