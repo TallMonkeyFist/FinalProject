@@ -35,6 +35,8 @@ Path.prototype.setGrid = function(grid)
 
 Path.prototype.setSpeed = function(speed)
 {
+    if(speed < 0)
+        speed = 0;
     this.speed = speed;
     this.deltaX = this.speed * this.xRatio / 60;
     this.deltaY = this.speed * this.yRatio / 60;
