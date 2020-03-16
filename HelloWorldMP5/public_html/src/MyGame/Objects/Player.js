@@ -9,7 +9,7 @@ function Player(mGrid)
     this.pathLines = []; 
     GameObject.call(this, this.square);
     this.mPath = new Path(mGrid, this.getXform());
-    this.wayPoints = [[20, 25], [100, 100], [150, 150]];
+    this.wayPoints = [[20, 25], [20, 150], [200, 150], [200, 25]];
     this.currPathIndex = 0; 
     this.followWayPoints = true;
     this.mPath.setGrid(mGrid);
