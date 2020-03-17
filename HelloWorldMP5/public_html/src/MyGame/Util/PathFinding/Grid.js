@@ -6,7 +6,7 @@ function Grid(numXCells, numYCells)
     this.xCell = numXCells;
     this.yCell = numYCells;
     this.squares = null;
-    this.object = [];
+    this.objects = [];
     this._calibrate();
     this.gridLines = []; 
     this.mGraph = null;
@@ -61,7 +61,7 @@ Grid.prototype.addStatic = function(object)
         return;
     }
     this._addToGrid(object);
-    this.object.push(object);
+    this.objects.push(object);
 };
 
 Grid.prototype.removeStatic = function(object)
@@ -145,6 +145,14 @@ Grid.prototype._addToGrid = function (object)
 
 Grid.prototype._removeFromGrid = function (object)
 {
+    var collided = [];
+    var boundingBox = object.getBBox();
+    var i;
+    for (i = 0; i < this.objects.length; i++)
+    {
+        if (boundingBox.intersectsBound(this.objects[i].getBBox()))
+            collided.push(this.objects[i]);
+    }
     var xform = object.getXform();
     var pos = xform.getPosition();
     var minX, minY, maxX, maxY;
@@ -154,13 +162,25 @@ Grid.prototype._removeFromGrid = function (object)
     maxY = pos[1] + xform.getHeight()/2;
     var start = this._wcToGrid([minX, minY]);
     var end = this._wcToGrid([maxX, maxY]);
-    var i;
+    
     for (i = start[0]; i <= end[0]; i++)
     {
         var j;
         for (j = start[1]; j <= end[1];  j++)
         {
             this.squares[i][j] = 1;
+        }
+    }
+    
+    for(i = 0; i < collided.length; i++)
+    {
+        if(collided[i] === object)
+        {
+            console.log("Found");
+        }
+        else
+        {
+            this._addToGrid(collided[i]);
         }
     }
     this.mGraph = null;

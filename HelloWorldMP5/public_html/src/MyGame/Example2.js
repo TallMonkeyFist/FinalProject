@@ -45,7 +45,7 @@ Example2.prototype.initialize = function () {
     //1400/750 = 300/x
     this.mCamera.setBackgroundColor([0.8, 0.8, 0.8, 1]);
             // sets the background to gray
-    this.mGrid = new Grid(100, 100, this.mCamera);
+    this.mGrid = new Grid(100, 100);
     var center = this.mCamera.getWCCenter();
     this.mGrid.setPosition(center[0], center[1]);
     this.mGrid.setWidth(this.mCamera.getWCWidth() + 100);

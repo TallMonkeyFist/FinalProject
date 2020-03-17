@@ -35,3 +35,9 @@ Renderable.prototype.getColor = function () { return this.mColor; };
 //</editor-fold>
 
 Renderable.prototype._setShader = function (s) { this.mShader = s; };
+
+Renderable.prototype.getBBox = function () {
+    var xform = this.getXform();
+    var b = new BoundingBox(xform.getPosition(), xform.getWidth(), xform.getHeight());
+    return b;
+};
