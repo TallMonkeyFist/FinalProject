@@ -21,7 +21,7 @@ function Example2() {
     this.sceneParser = null;
     this.currPlayer = 0; 
 }
-gEngine.Core.inheritPrototype(MyGame, Scene);
+gEngine.Core.inheritPrototype(Example2, Scene);
 
 Example2.prototype.loadScene = function () {
     

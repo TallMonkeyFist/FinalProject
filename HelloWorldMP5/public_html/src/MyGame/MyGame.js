@@ -26,7 +26,7 @@ function MyGame() {
 gEngine.Core.inheritPrototype(MyGame, Scene);
 
 MyGame.prototype.loadScene = function () 
-{    
+{
     // Loads in Json file
     gEngine.TextFileLoader.loadTextFile(this.kSceneFile, gEngine.TextFileLoader.eTextFileType.eTextFile);
 };
@@ -38,6 +38,7 @@ MyGame.prototype.unloadScene = function ()
 
 MyGame.prototype.initialize = function () 
 {
+    console.log("init started");
     this.sceneParser = new SceneFileParser(this.kSceneFile, "JSON");
     // Step A: set up the cameras
     this.mCamera = new Camera(
@@ -74,6 +75,7 @@ MyGame.prototype.initialize = function ()
     enemy2.setSpeed(300);
     
     this.enemies.push(enemy2);
+    console.log("init finished");
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more
