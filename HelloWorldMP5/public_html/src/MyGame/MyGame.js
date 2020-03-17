@@ -34,6 +34,8 @@ MyGame.prototype.loadScene = function ()
 MyGame.prototype.unloadScene = function () 
 {
     gEngine.TextFileLoader.unloadTextFile(this.kSceneFile);
+    var nextLevel = new Example2();  // next level to be loaded
+    gEngine.Core.startScene(nextLevel);
 };
 
 MyGame.prototype.initialize = function () 
@@ -110,6 +112,11 @@ MyGame.prototype.update = function ()
     var i;
     for (i = 0; i < this.enemies.length; i++) {
         this.enemies[i].update(this.mGrid, this.mCamera);
+    }
+    
+    if(gEngine.Input.isKeyPressed(gEngine.Input.keys.K))
+    {
+        this.unloadScene();
     }
 
     if(gEngine.Input.isKeyPressed(gEngine.Input.keys.Left))

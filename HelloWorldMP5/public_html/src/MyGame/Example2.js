@@ -31,6 +31,8 @@ Example2.prototype.loadScene = function () {
 
 Example2.prototype.unloadScene = function () {
     gEngine.TextFileLoader.unloadTextFile(this.kSceneFile);
+    var nextLevel = new MyGame();  // next level to be loaded
+    gEngine.Core.startScene(nextLevel);
 };
 
 Example2.prototype.initialize = function () {
@@ -97,6 +99,10 @@ Example2.prototype.draw = function () {
 // anything from this function!
 Example2.prototype.update = function () 
 {
+    if(gEngine.Input.isKeyPressed(gEngine.Input.keys.K))
+    {
+        this.unloadScene();
+    }
     // Shows Player Paths 
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.H)) 
     {
