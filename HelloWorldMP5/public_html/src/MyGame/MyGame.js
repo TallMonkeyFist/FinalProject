@@ -114,7 +114,7 @@ MyGame.prototype.update = function ()
         this.enemies[i].update(this.mGrid, this.mCamera);
     }
     
-    if(gEngine.Input.isKeyPressed(gEngine.Input.keys.K))
+    if(gEngine.Input.isKeyClicked(gEngine.Input.keys.K))
     {
         this.unloadScene();
     }
