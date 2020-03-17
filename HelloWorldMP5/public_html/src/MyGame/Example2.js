@@ -99,7 +99,7 @@ Example2.prototype.draw = function () {
 // anything from this function!
 Example2.prototype.update = function () 
 {
-    if(gEngine.Input.isKeyPressed(gEngine.Input.keys.K))
+    if(gEngine.Input.isKeyClicked(gEngine.Input.keys.K))
     {
         this.unloadScene();
     }
