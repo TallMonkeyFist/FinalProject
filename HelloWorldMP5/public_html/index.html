@@ -68,8 +68,8 @@
     </head>
 
     <body onload="
-        var myGame = new MyGame();
-        //var myGame = new Example2();
+        //var myGame = new MyGame();
+        var myGame = new Example2();
         gEngine.Core.initializeEngineCore('GLCanvas', myGame);
      ">
         <canvas id="GLCanvas" width="1400" height="750">
@@ -78,9 +78,32 @@
             <!-- this message will show only if WebGL clearing failed -->
         </canvas>
                         <br>
+        <h4> GAME STATUS: </h4>
         <div id='Playerid'></div>                
         <div id='UpdateFrame'></div>
-        
+        <hr>
+        <h4> CONTROLS: </h4>
+        <p>
+            .   Arrows to move camera <br>
+
+            .   N/M to increase/decrease speed of selected player<br>
+
+            .   P to remove wall<br>
+
+            .   Q to go to set point<br>
+
+            .   Left click to move to mouse<br>
+
+            .   G to toggle Grid<br>
+
+            .   H toggles drawing of player paths<br>
+
+            .   J toggles drawing of enemy paths<br>
+
+            .   Space to switch player<br>
+
+            .   K to load next scene   <br>
+                </p>
         <hr>
         <script>
         var gUpdateFrame = function(message) {
